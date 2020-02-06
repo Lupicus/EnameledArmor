@@ -1,0 +1,22 @@
+modLoader="javafml"
+loaderVersion="[30,)"
+[[mods]]
+modId="ea"
+version="${file.jarVersion}"
+displayName="Enameled Armor Mod"
+displayURL="https://www.curseforge.com/minecraft/mc-mods/enameled-armor"
+logoFile="logo.png"
+authors="MacTso, Lupicus"
+description='''Enameled Armor Mod.'''
+[[dependencies.ea]]
+    modId="forge"
+    mandatory=true
+    versionRange="[30,)"
+    ordering="NONE"
+    side="BOTH"
+[[dependencies.ea]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="[1.15.1,1.16)"
+    ordering="NONE"
+    side="BOTH"

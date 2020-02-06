@@ -1,0 +1,79 @@
+package com.lupicus.ea.item;
+
+import org.lwjgl.glfw.GLFW;
+
+import com.lupicus.ea.network.EAPacket;
+import com.lupicus.ea.network.Network;
+
+import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.screen.inventory.ContainerScreen;
+import net.minecraft.client.gui.screen.inventory.CreativeScreen.CreativeContainer;
+import net.minecraft.inventory.container.Container;
+import net.minecraft.inventory.container.RecipeBookContainer;
+import net.minecraft.inventory.container.Slot;
+import net.minecraft.item.ItemStack;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.client.event.GuiScreenEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
+
+public interface IGuiRightClick
+{
+	public void menuRightClick(ItemStack stack);
+
+    @OnlyIn(Dist.CLIENT)
+    @Mod.EventBusSubscriber()
+	public static class ClientEvents
+	{
+	    @SubscribeEvent
+	    public static void onMouseScreenEvent(GuiScreenEvent.MouseClickedEvent.Pre event)
+	    {
+	    	if (event.isCanceled())
+	    		return;
+	    	if (event.getButton() != GLFW.GLFW_MOUSE_BUTTON_RIGHT)
+	    		return;
+	    	Screen gui = event.getGui();
+	    	if (gui == null || !(gui instanceof ContainerScreen<?>))
+	    		return;
+			ContainerScreen<?> cg = (ContainerScreen<?>) gui;
+			Slot slot = cg.getSlotUnderMouse();
+			if (slot != null && slot.getHasStack())
+			{
+				ItemStack stack = slot.getStack();
+				if (stack.getItem() instanceof IGuiRightClick)
+				{
+					Container cont = cg.getContainer();
+					int index = -1;
+					if (cont.windowId == 0 && cont instanceof CreativeContainer)
+					{
+						// need to remap to what the server side is using
+						for (Slot slot2 : gui.getMinecraft().player.container.inventorySlots)
+						{
+							if (slot2.isSameInventory(slot) && slot2.getSlotIndex() == slot.getSlotIndex())
+							{
+								index = slot2.slotNumber;
+								break;
+							}
+						}
+					}
+					else
+						index = slot.slotNumber;
+					if (cont instanceof RecipeBookContainer<?>)
+					{
+						// skip if in the crafting section
+						if (index < ((RecipeBookContainer<?>)cont).getSize())
+							return;
+					}
+					if (index >= 0)
+					{
+						Network.sendToServer(new EAPacket(1, cont.windowId, index));
+						if (event.isCancelable())
+							event.setCanceled(true);
+					}
+				}
+			}
+	    	return;
+	    }
+    }
+}
