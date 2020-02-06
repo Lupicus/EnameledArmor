@@ -25,7 +25,3 @@ run
 forge*changelog.txt
 /old_stuff/
 /libs/
-/gradle.properties
-/gradlew
-/gradlew.bat
-/gradle/
