@@ -22,10 +22,10 @@ public interface IGuiRightClick
 {
 	public void menuRightClick(ItemStack stack);
 
-    @OnlyIn(Dist.CLIENT)
     @Mod.EventBusSubscriber()
 	public static class ClientEvents
 	{
+        @OnlyIn(Dist.CLIENT)
 	    @SubscribeEvent
 	    public static void onMouseScreenEvent(GuiScreenEvent.MouseClickedEvent.Pre event)
 	    {

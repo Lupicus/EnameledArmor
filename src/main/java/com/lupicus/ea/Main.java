@@ -17,7 +17,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
 // The value here should match an entry in the META-INF/mods.toml file
-@Mod("ea")
+@Mod(Main.MODID)
 public class Main
 {
     public static final String MODID = "ea"; 
@@ -38,10 +38,7 @@ public class Main
     	@SubscribeEvent
     	public static void onItemsRegistry(final RegistryEvent.Register<Item> event)
     	{
-    		event.getRegistry().register(ModItems.EA_HELMET);
-    		event.getRegistry().register(ModItems.EA_CHESTPLATE);
-    		event.getRegistry().register(ModItems.EA_LEGGINGS);
-    		event.getRegistry().register(ModItems.EA_BOOTS);
+    		event.getRegistry().registerAll(ModItems.EA_HELMET, ModItems.EA_CHESTPLATE, ModItems.EA_LEGGINGS, ModItems.EA_BOOTS);
     	}
 
         @OnlyIn(Dist.CLIENT)
