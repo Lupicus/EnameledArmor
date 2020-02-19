@@ -24,7 +24,7 @@ public class EARecipe extends ShapelessRecipe
 {
 	protected final String operation;
 	private final boolean copyDamage;
-	public final static Serializer CRAFTING_EA = (Serializer) new Serializer().setRegistryName(Serializer.NAME);
+	public static final Serializer CRAFTING_EA = (Serializer) new Serializer().setRegistryName(Serializer.NAME);
 
 	public EARecipe(ResourceLocation idIn, String groupIn, ItemStack recipeOutputIn,
 			NonNullList<Ingredient> recipeItemsIn, String operationIn)

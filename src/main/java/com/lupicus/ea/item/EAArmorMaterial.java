@@ -8,7 +8,7 @@ import net.minecraft.util.SoundEvent;
 
 public class EAArmorMaterial implements IArmorMaterial
 {
-	private final static IArmorMaterial clone = ArmorMaterial.DIAMOND;
+	private static final IArmorMaterial clone = ArmorMaterial.DIAMOND;
 
 	@Override
 	public int getDurability(EquipmentSlotType slotIn) {
