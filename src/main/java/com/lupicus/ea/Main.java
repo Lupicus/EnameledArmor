@@ -4,7 +4,6 @@ import com.lupicus.ea.item.ModItems;
 import com.lupicus.ea.item.crafting.EARecipe;
 import com.lupicus.ea.network.Register;
 
-import net.minecraft.item.IDyeableArmorItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraftforge.api.distmarker.Dist;
@@ -38,16 +37,14 @@ public class Main
     	@SubscribeEvent
     	public static void onItemsRegistry(final RegistryEvent.Register<Item> event)
     	{
-    		event.getRegistry().registerAll(ModItems.EA_HELMET, ModItems.EA_CHESTPLATE, ModItems.EA_LEGGINGS, ModItems.EA_BOOTS);
+    		ModItems.register(event.getRegistry());
     	}
 
         @OnlyIn(Dist.CLIENT)
         @SubscribeEvent
         public static void onColorsRegistry(final ColorHandlerEvent.Item event)
         {
-            event.getItemColors().register((itemstack, index) -> {
-            	return index > 0 ? -1 : ((IDyeableArmorItem)itemstack.getItem()).getColor(itemstack);
-            }, ModItems.EA_HELMET, ModItems.EA_CHESTPLATE, ModItems.EA_LEGGINGS, ModItems.EA_BOOTS);
+        	ModItems.register(event.getItemColors());
         }
 
         @SubscribeEvent
