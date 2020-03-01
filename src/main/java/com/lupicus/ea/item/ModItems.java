@@ -7,6 +7,8 @@ import net.minecraft.item.IDyeableArmorItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.Item.Properties;
 import net.minecraft.item.ItemGroup;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.registries.IForgeRegistry;
 
 public class ModItems
@@ -22,6 +24,7 @@ public class ModItems
 		forgeRegistry.registerAll(EA_HELMET, EA_CHESTPLATE, EA_LEGGINGS, EA_BOOTS);
 	}
 
+	@OnlyIn(Dist.CLIENT)
 	public static void register(ItemColors itemColors)
 	{
 		itemColors.register((itemstack, index) -> {
