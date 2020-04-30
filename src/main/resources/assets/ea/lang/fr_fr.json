@@ -1,10 +1,10 @@
 {
-	"item.ea.ea_chestplate": "Enameled Diamond Chestplate",
-	"item.ea.ea_boots": "Enameled Diamond Boots",
-	"item.ea.ea_leggings": "Enameled Diamond Leggings",
-	"item.ea.ea_helmet": "Enameled Diamond Helmet",
-	"item.ea.ea_chainmail_chestplate": "Enameled Chainmail Chestplate",
-	"item.ea.ea_chainmail_boots": "Enameled Chainmail Boots",
-	"item.ea.ea_chainmail_leggings": "Enameled Chainmail Leggings",
-	"item.ea.ea_chainmail_helmet": "Enameled Chainmail Helmet"
+	"item.ea.ea_chestplate": "Cuirasse Diamant Émaillé",
+	"item.ea.ea_boots": "Bottes Diamant Émaillé",
+	"item.ea.ea_leggings": "Cuissardes Diamant Émaillé",
+	"item.ea.ea_helmet": "Casque Diamant Émaillé",
+	"item.ea.ea_chainmail_chestplate": "Haubert en Cotte de Mailles Émaillée",
+	"item.ea.ea_chainmail_boots": "Bottes en Cotte de Mailles Émaillée",
+	"item.ea.ea_chainmail_leggings": "Jambières en Cotte de Mailles Émaillées",
+	"item.ea.ea_chainmail_helmet": "Coiffe en Cotte de Mailles Émaillé"
 }
