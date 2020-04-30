@@ -1,0 +1,18 @@
+{
+  "type": "ea:crafting_shapeless",
+  "operation": "set_color",
+  "ingredients": [
+    {
+      "item": "ea:ea_chainmail_chestplate"
+    },
+    {
+      "tag": "forge:mushrooms"
+    },
+    {
+      "tag": "ea:true_dyes"
+    }
+  ],
+  "result": {
+    "item": "ea:ea_chainmail_chestplate"
+  }
+}

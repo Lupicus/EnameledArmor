@@ -1,0 +1,14 @@
+{
+  "type": "ea:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "minecraft:chainmail_helmet"
+    },
+    {
+      "item": "minecraft:clay_ball"
+    }
+  ],
+  "result": {
+    "item": "ea:ea_chainmail_helmet"
+  }
+}

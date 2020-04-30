@@ -1,0 +1,7 @@
+{
+    "parent": "item/generated",
+    "textures": {
+        "layer0": "ea:item/ea_chainmail_helmet",
+        "layer1": "ea:item/ea_chainmail_helmet_overlay"
+    }
+}

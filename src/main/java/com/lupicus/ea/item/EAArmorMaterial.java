@@ -1,5 +1,7 @@
 package com.lupicus.ea.item;
 
+import com.lupicus.ea.Main;
+
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ArmorMaterial;
 import net.minecraft.item.IArmorMaterial;
@@ -8,7 +10,13 @@ import net.minecraft.util.SoundEvent;
 
 public class EAArmorMaterial implements IArmorMaterial
 {
-	private static final IArmorMaterial clone = ArmorMaterial.DIAMOND;
+	private IArmorMaterial clone;
+	private String materialName;
+	
+	public EAArmorMaterial(ArmorMaterial inClone, String materialPrefix) {
+		clone = inClone;
+		materialName = materialPrefix;
+	}
 
 	@Override
 	public int getDurability(EquipmentSlotType slotIn) {
@@ -38,7 +46,8 @@ public class EAArmorMaterial implements IArmorMaterial
 	@Override
 	public String getName()
 	{
-		return "ea:ea";
+		return Main.MODID + ":" + materialName;
+		//		return "ea:ea";
 	}
 
 	@Override
