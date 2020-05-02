@@ -5,6 +5,7 @@ import org.lwjgl.glfw.GLFW;
 import com.lupicus.ea.network.EAPacket;
 import com.lupicus.ea.network.Network;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.client.gui.screen.inventory.CreativeScreen.CreativeContainer;
@@ -48,7 +49,8 @@ public interface IGuiRightClick
 					if (cont.windowId == 0 && cont instanceof CreativeContainer)
 					{
 						// need to remap to what the server side is using
-						for (Slot slot2 : gui.getMinecraft().player.container.inventorySlots)
+						Minecraft mc = gui.getMinecraft();
+						for (Slot slot2 : mc.player.container.inventorySlots)
 						{
 							if (slot2.isSameInventory(slot) && slot2.getSlotIndex() == slot.getSlotIndex())
 							{
