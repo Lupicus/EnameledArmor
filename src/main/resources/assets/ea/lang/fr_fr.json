@@ -1,10 +1,16 @@
-{
-	"item.ea.ea_chestplate": "Cuirasse Diamant Émaillé",
-	"item.ea.ea_boots": "Bottes Diamant Émaillé",
-	"item.ea.ea_leggings": "Cuissardes Diamant Émaillé",
-	"item.ea.ea_helmet": "Casque Diamant Émaillé",
-	"item.ea.ea_chainmail_chestplate": "Haubert en Cotte de Mailles Émaillée",
-	"item.ea.ea_chainmail_boots": "Bottes en Cotte de Mailles Émaillée",
-	"item.ea.ea_chainmail_leggings": "Jambières en Cotte de Mailles Émaillées",
-	"item.ea.ea_chainmail_helmet": "Coiffe en Cotte de Mailles Émaillé"
+ï»¿{
+	"item.ea.ea_chestplate": "Cuirasse Diamant Ã‰maillÃ©",
+	"item.ea.ea_boots": "Bottes Diamant Ã‰maillÃ©",
+	"item.ea.ea_leggings": "Cuissardes Diamant Ã‰maillÃ©",
+	"item.ea.ea_helmet": "Casque Diamant Ã‰maillÃ©",
+	"item.ea.ea_bow": "Arc Ã‰maillÃ©e",	
+	"item.ea.ea_diamond_sword": "Ã‰pÃ©e Diamant Ã‰maillÃ©e",	
+	"item.ea.ea_chainmail_chestplate": "Haubert en Cotte de Mailles Ã‰maillÃ©e",
+	"item.ea.ea_chainmail_boots": "Bottes en Cotte de Mailles Ã‰maillÃ©e",
+	"item.ea.ea_chainmail_leggings": "JambiÃ¨res en Cotte de Mailles Ã‰maillÃ©es",
+	"item.ea.ea_chainmail_helmet": "Coiffe en Cotte de Mailles Ã‰maillÃ©",
+	"item.ea.ea_iron_chestplate": "Cuirasse de Fer Ã‰maillÃ©e",
+	"item.ea.ea_iron_boots": "Bottes de Fer Ã‰maillÃ©e",
+	"item.ea.ea_iron_leggings": "JambiÃ¨res de Fer Ã‰maillÃ©es",
+	"item.ea.ea_iron_helmet": "Casque de Fer Ã‰maillÃ©e"
 }

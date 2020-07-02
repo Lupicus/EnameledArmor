@@ -1,0 +1,15 @@
+{
+  "type": "ea:crafting_shapeless",
+  "operation": "remove",
+  "ingredients": [
+    {
+      "item": "ea:ea_bow"
+    },
+    {
+      "item": "minecraft:gravel"
+    }
+  ],
+  "result": {
+    "item": "minecraft:bow"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "type": "ea:crafting_shapeless",
+  "operation": "reset_color",
+  "ingredients": [
+    {
+      "item": "ea:ea_iron_boots"
+    }
+  ],
+  "result": {
+    "item": "ea:ea_iron_boots"
+  }
+}

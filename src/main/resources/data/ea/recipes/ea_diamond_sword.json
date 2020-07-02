@@ -1,0 +1,14 @@
+{
+  "type": "ea:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "minecraft:diamond_sword"
+    },
+    {
+      "item": "minecraft:clay_ball"
+    }
+  ],
+  "result": {
+    "item": "ea:ea_diamond_sword"
+  }
+}

@@ -5,6 +5,7 @@ modId="ea"
 version="${file.jarVersion}"
 displayName="Enameled Armor Mod"
 displayURL="https://www.curseforge.com/minecraft/mc-mods/enameled-armor"
+updateJSONURL="https://github.com/Lupicus/EnameledArmor/raw/master/update.json"	
 logoFile="logo.png"
 authors="MacTso, Lupicus"
 description='''Enameled Armor Mod.'''
