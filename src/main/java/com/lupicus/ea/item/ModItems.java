@@ -36,15 +36,16 @@ public class ModItems
 	public static final Item EA_IRON_CHESTPLATE = new EAArmorItem(IR_MATERIAL, EquipmentSlotType.CHEST, new Properties().group(ItemGroup.COMBAT), "ea_iron_chestplate");
 	public static final Item EA_IRON_LEGGINGS = new EAArmorItem(IR_MATERIAL, EquipmentSlotType.LEGS, new Properties().group(ItemGroup.COMBAT), "ea_iron_leggings");
 	public static final Item EA_IRON_BOOTS = new EAArmorItem(IR_MATERIAL, EquipmentSlotType.FEET, new Properties().group(ItemGroup.COMBAT), "ea_iron_boots");
+    public static final Item EA_IRON_SWORD = new EASwordItem(ItemTier.IRON, 3, -2.4F, (new Item.Properties()).group(ItemGroup.COMBAT),"ea_iron_sword");
 
 	
 	public static void register(IForgeRegistry<Item> forgeRegistry)
 	{
-		Item t = Items.BOW;
+
 		forgeRegistry.registerAll(EA_HELMET, EA_CHESTPLATE, EA_LEGGINGS, EA_BOOTS,
 				EA_IRON_HELMET,EA_IRON_CHESTPLATE,EA_IRON_LEGGINGS, EA_IRON_BOOTS,
 				EA_CHAINMAIL_HELMET,EA_CHAINMAIL_CHESTPLATE,EA_CHAINMAIL_LEGGINGS, EA_CHAINMAIL_BOOTS,
-				EA_DIAMOND_SWORD,EA_BOW);
+				EA_DIAMOND_SWORD,EA_IRON_SWORD, EA_BOW);
 	}
 
 	@OnlyIn(Dist.CLIENT)
