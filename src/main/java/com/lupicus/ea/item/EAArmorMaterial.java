@@ -54,4 +54,9 @@ public class EAArmorMaterial implements IArmorMaterial
 	public float getToughness() {
 		return clone.getToughness();
 	}
+	
+	@Override
+	public float func_230304_f_() {
+		return clone.func_230304_f_();
+	}
 }
