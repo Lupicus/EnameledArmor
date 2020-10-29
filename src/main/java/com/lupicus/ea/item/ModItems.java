@@ -31,11 +31,11 @@ public class ModItems
 	public static final Item EA_CHAINMAIL_BOOTS = new EAArmorItem(CH_MATERIAL, EquipmentSlotType.FEET, new Properties().group(ItemGroup.COMBAT), "ea_chainmail_boots");
 
 	private static final IArmorMaterial NT_MATERIAL = new EAArmorMaterial(ArmorMaterial.NETHERITE,"ea_netherite");
-	public static final Item EA_NETHERITE_HELMET = new EAArmorItem(NT_MATERIAL, EquipmentSlotType.HEAD, new Properties().group(ItemGroup.COMBAT).isBurnable(), "ea_netherite_helmet");
-	public static final Item EA_NETHERITE_CHESTPLATE = new EAArmorItem(NT_MATERIAL, EquipmentSlotType.CHEST, new Properties().group(ItemGroup.COMBAT).isBurnable(), "ea_netherite_chestplate");
-	public static final Item EA_NETHERITE_LEGGINGS = new EAArmorItem(NT_MATERIAL, EquipmentSlotType.LEGS, new Properties().group(ItemGroup.COMBAT).isBurnable(), "ea_netherite_leggings");
-	public static final Item EA_NETHERITE_BOOTS = new EAArmorItem(NT_MATERIAL, EquipmentSlotType.FEET, new Properties().group(ItemGroup.COMBAT).isBurnable(), "ea_netherite_boots");
-    public static final Item EA_NETHERITE_SWORD = new EASwordItem(ItemTier.NETHERITE, 9, -4.0F, (new Item.Properties()).group(ItemGroup.COMBAT).isBurnable(),"ea_netherite_sword");
+	public static final Item EA_NETHERITE_HELMET = new EAArmorItem(NT_MATERIAL, EquipmentSlotType.HEAD, new Properties().group(ItemGroup.COMBAT).isImmuneToFire(), "ea_netherite_helmet");
+	public static final Item EA_NETHERITE_CHESTPLATE = new EAArmorItem(NT_MATERIAL, EquipmentSlotType.CHEST, new Properties().group(ItemGroup.COMBAT).isImmuneToFire(), "ea_netherite_chestplate");
+	public static final Item EA_NETHERITE_LEGGINGS = new EAArmorItem(NT_MATERIAL, EquipmentSlotType.LEGS, new Properties().group(ItemGroup.COMBAT).isImmuneToFire(), "ea_netherite_leggings");
+	public static final Item EA_NETHERITE_BOOTS = new EAArmorItem(NT_MATERIAL, EquipmentSlotType.FEET, new Properties().group(ItemGroup.COMBAT).isImmuneToFire(), "ea_netherite_boots");
+    public static final Item EA_NETHERITE_SWORD = new EASwordItem(ItemTier.NETHERITE, 9, -4.0F, (new Item.Properties()).group(ItemGroup.COMBAT).isImmuneToFire(),"ea_netherite_sword");
 
 	
 	private static final IArmorMaterial IR_MATERIAL = new EAArmorMaterial(ArmorMaterial.IRON,"ea_iron");
