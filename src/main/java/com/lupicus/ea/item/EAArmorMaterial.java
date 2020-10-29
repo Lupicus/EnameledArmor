@@ -56,7 +56,7 @@ public class EAArmorMaterial implements IArmorMaterial
 	}
 	
 	@Override
-	public float func_230304_f_() {
-		return clone.func_230304_f_();
+	public float getKnockbackResistance() {
+		return clone.getKnockbackResistance();
 	}
 }

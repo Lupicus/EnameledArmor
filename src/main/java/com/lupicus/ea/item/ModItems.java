@@ -9,7 +9,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.Item.Properties;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemTier;
-import net.minecraft.item.Items;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.registries.IForgeRegistry;
@@ -31,6 +30,14 @@ public class ModItems
 	public static final Item EA_CHAINMAIL_LEGGINGS = new EAArmorItem(CH_MATERIAL, EquipmentSlotType.LEGS, new Properties().group(ItemGroup.COMBAT), "ea_chainmail_leggings");
 	public static final Item EA_CHAINMAIL_BOOTS = new EAArmorItem(CH_MATERIAL, EquipmentSlotType.FEET, new Properties().group(ItemGroup.COMBAT), "ea_chainmail_boots");
 
+	private static final IArmorMaterial NT_MATERIAL = new EAArmorMaterial(ArmorMaterial.NETHERITE,"ea_netherite");
+	public static final Item EA_NETHERITE_HELMET = new EAArmorItem(NT_MATERIAL, EquipmentSlotType.HEAD, new Properties().group(ItemGroup.COMBAT).isBurnable(), "ea_netherite_helmet");
+	public static final Item EA_NETHERITE_CHESTPLATE = new EAArmorItem(NT_MATERIAL, EquipmentSlotType.CHEST, new Properties().group(ItemGroup.COMBAT).isBurnable(), "ea_netherite_chestplate");
+	public static final Item EA_NETHERITE_LEGGINGS = new EAArmorItem(NT_MATERIAL, EquipmentSlotType.LEGS, new Properties().group(ItemGroup.COMBAT).isBurnable(), "ea_netherite_leggings");
+	public static final Item EA_NETHERITE_BOOTS = new EAArmorItem(NT_MATERIAL, EquipmentSlotType.FEET, new Properties().group(ItemGroup.COMBAT).isBurnable(), "ea_netherite_boots");
+    public static final Item EA_NETHERITE_SWORD = new EASwordItem(ItemTier.NETHERITE, 9, -4.0F, (new Item.Properties()).group(ItemGroup.COMBAT).isBurnable(),"ea_netherite_sword");
+
+	
 	private static final IArmorMaterial IR_MATERIAL = new EAArmorMaterial(ArmorMaterial.IRON,"ea_iron");
 	public static final Item EA_IRON_HELMET = new EAArmorItem(IR_MATERIAL, EquipmentSlotType.HEAD, new Properties().group(ItemGroup.COMBAT), "ea_iron_helmet");
 	public static final Item EA_IRON_CHESTPLATE = new EAArmorItem(IR_MATERIAL, EquipmentSlotType.CHEST, new Properties().group(ItemGroup.COMBAT), "ea_iron_chestplate");
@@ -42,10 +49,11 @@ public class ModItems
 	public static void register(IForgeRegistry<Item> forgeRegistry)
 	{
 
-		forgeRegistry.registerAll(EA_HELMET, EA_CHESTPLATE, EA_LEGGINGS, EA_BOOTS,
-				EA_IRON_HELMET,EA_IRON_CHESTPLATE,EA_IRON_LEGGINGS, EA_IRON_BOOTS,
+		forgeRegistry.registerAll(EA_HELMET, EA_CHESTPLATE, EA_LEGGINGS, EA_BOOTS, EA_DIAMOND_SWORD,
+				EA_IRON_HELMET,EA_IRON_CHESTPLATE,EA_IRON_LEGGINGS, EA_IRON_BOOTS, EA_IRON_SWORD,
+				EA_NETHERITE_HELMET,EA_NETHERITE_CHESTPLATE,EA_NETHERITE_LEGGINGS, EA_NETHERITE_BOOTS, EA_NETHERITE_SWORD,
 				EA_CHAINMAIL_HELMET,EA_CHAINMAIL_CHESTPLATE,EA_CHAINMAIL_LEGGINGS, EA_CHAINMAIL_BOOTS,
-				EA_DIAMOND_SWORD,EA_IRON_SWORD, EA_BOW);
+				EA_BOW);
 	}
 
 	@OnlyIn(Dist.CLIENT)
@@ -55,6 +63,7 @@ public class ModItems
         	return index > 0 ? -1 : ((IDyeableArmorItem)itemstack.getItem()).getColor(itemstack);
         }, EA_HELMET, EA_CHESTPLATE, EA_LEGGINGS, EA_BOOTS,
 				EA_IRON_HELMET,EA_IRON_CHESTPLATE,EA_IRON_LEGGINGS, EA_IRON_BOOTS,
+				EA_NETHERITE_HELMET,EA_NETHERITE_CHESTPLATE,EA_NETHERITE_LEGGINGS, EA_NETHERITE_BOOTS, 
 				EA_CHAINMAIL_HELMET,EA_CHAINMAIL_CHESTPLATE,EA_CHAINMAIL_LEGGINGS, EA_CHAINMAIL_BOOTS);
 	}
 }
