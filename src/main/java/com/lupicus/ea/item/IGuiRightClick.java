@@ -15,7 +15,7 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.event.GuiScreenEvent;
+import net.minecraftforge.client.event.ScreenEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
@@ -28,13 +28,13 @@ public interface IGuiRightClick
 	{
         @OnlyIn(Dist.CLIENT)
 	    @SubscribeEvent
-	    public static void onMouseScreenEvent(GuiScreenEvent.MouseClickedEvent.Pre event)
+	    public static void onMouseScreenEvent(ScreenEvent.MouseClickedEvent.Pre event)
 	    {
 	    	if (event.isCanceled())
 	    		return;
 	    	if (event.getButton() != GLFW.GLFW_MOUSE_BUTTON_RIGHT)
 	    		return;
-	    	Screen gui = event.getGui();
+	    	Screen gui = event.getScreen();
 	    	if (gui == null || !(gui instanceof AbstractContainerScreen<?>))
 	    		return;
 	    	AbstractContainerScreen<?> cg = (AbstractContainerScreen<?>) gui;
