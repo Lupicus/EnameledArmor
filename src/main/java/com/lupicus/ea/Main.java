@@ -4,8 +4,8 @@ import com.lupicus.ea.item.ModItems;
 import com.lupicus.ea.item.crafting.EARecipe;
 import com.lupicus.ea.network.Register;
 
-import net.minecraft.item.Item;
-import net.minecraft.item.crafting.IRecipeSerializer;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.ColorHandlerEvent;
@@ -48,7 +48,7 @@ public class Main
         }
 
         @SubscribeEvent
-        public static void onRecipeRegistry(final RegistryEvent.Register<IRecipeSerializer<?>> event)
+        public static void onRecipeRegistry(final RegistryEvent.Register<RecipeSerializer<?>> event)
         {
         	event.getRegistry().register(EARecipe.CRAFTING_EA);
         }

@@ -2,15 +2,14 @@ package com.lupicus.ea.item;
 
 import com.lupicus.ea.Main;
 
-import net.minecraft.inventory.EquipmentSlotType;
-import net.minecraft.item.ArmorMaterial;
-import net.minecraft.item.IArmorMaterial;
-import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.util.SoundEvent;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.item.ArmorMaterial;
+import net.minecraft.world.item.crafting.Ingredient;
 
-public class EAArmorMaterial implements IArmorMaterial
+public class EAArmorMaterial implements ArmorMaterial
 {
-	private IArmorMaterial clone;
+	private ArmorMaterial clone;
 	private String materialName;
 	
 	public EAArmorMaterial(ArmorMaterial inClone, String materialPrefix) {
@@ -19,28 +18,28 @@ public class EAArmorMaterial implements IArmorMaterial
 	}
 
 	@Override
-	public int getDurability(EquipmentSlotType slotIn) {
-		return clone.getDurability(slotIn);
+	public int getDurabilityForSlot(EquipmentSlot slotIn) {
+		return clone.getDurabilityForSlot(slotIn);
 	}
 
 	@Override
-	public int getDamageReductionAmount(EquipmentSlotType slotIn) {
-		return clone.getDamageReductionAmount(slotIn);
+	public int getDefenseForSlot(EquipmentSlot slotIn) {
+		return clone.getDefenseForSlot(slotIn);
 	}
 
 	@Override
-	public int getEnchantability() {
-		return clone.getEnchantability();
+	public int getEnchantmentValue() {
+		return clone.getEnchantmentValue();
 	}
 
 	@Override
-	public SoundEvent getSoundEvent() {
-		return clone.getSoundEvent();
+	public SoundEvent getEquipSound() {
+		return clone.getEquipSound();
 	}
 
 	@Override
-	public Ingredient getRepairMaterial() {
-		return clone.getRepairMaterial();
+	public Ingredient getRepairIngredient() {
+		return clone.getRepairIngredient();
 	}
 
 	@Override

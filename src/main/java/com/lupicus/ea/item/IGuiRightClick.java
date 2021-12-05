@@ -6,13 +6,13 @@ import com.lupicus.ea.network.EAPacket;
 import com.lupicus.ea.network.Network;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.screen.inventory.ContainerScreen;
-import net.minecraft.client.gui.screen.inventory.CreativeScreen.CreativeContainer;
-import net.minecraft.inventory.container.Container;
-import net.minecraft.inventory.container.RecipeBookContainer;
-import net.minecraft.inventory.container.Slot;
-import net.minecraft.item.ItemStack;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.gui.screens.inventory.CreativeModeInventoryScreen.ItemPickerMenu;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.RecipeBookMenu;
+import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.GuiScreenEvent;
@@ -35,41 +35,41 @@ public interface IGuiRightClick
 	    	if (event.getButton() != GLFW.GLFW_MOUSE_BUTTON_RIGHT)
 	    		return;
 	    	Screen gui = event.getGui();
-	    	if (gui == null || !(gui instanceof ContainerScreen<?>))
+	    	if (gui == null || !(gui instanceof AbstractContainerScreen<?>))
 	    		return;
-			ContainerScreen<?> cg = (ContainerScreen<?>) gui;
+	    	AbstractContainerScreen<?> cg = (AbstractContainerScreen<?>) gui;
 			Slot slot = cg.getSlotUnderMouse();
-			if (slot != null && slot.getHasStack())
+			if (slot != null && slot.hasItem())
 			{
-				ItemStack stack = slot.getStack();
+				ItemStack stack = slot.getItem();
 				if (stack.getItem() instanceof IGuiRightClick)
 				{
-					Container cont = cg.getContainer();
+					AbstractContainerMenu cont = cg.getMenu();
 					int index = -1;
-					if (cont.windowId == 0 && cont instanceof CreativeContainer)
+					if (cont.containerId == 0 && cont instanceof ItemPickerMenu)
 					{
 						// need to remap to what the server side is using
 						Minecraft mc = gui.getMinecraft();
-						for (Slot slot2 : mc.player.container.inventorySlots)
+						for (Slot slot2 : mc.player.inventoryMenu.slots)
 						{
 							if (slot2.isSameInventory(slot) && slot2.getSlotIndex() == slot.getSlotIndex())
 							{
-								index = slot2.slotNumber;
+								index = slot2.index;
 								break;
 							}
 						}
 					}
 					else
-						index = slot.slotNumber;
-					if (cont instanceof RecipeBookContainer<?>)
+						index = slot.index;
+					if (cont instanceof RecipeBookMenu<?>)
 					{
 						// skip if in the crafting section
-						if (index < ((RecipeBookContainer<?>)cont).getSize())
+						if (index < ((RecipeBookMenu<?>)cont).getSize())
 							return;
 					}
 					if (index >= 0)
 					{
-						Network.sendToServer(new EAPacket(1, cont.windowId, index));
+						Network.sendToServer(new EAPacket(1, cont.containerId, index));
 						if (event.isCancelable())
 							event.setCanceled(true);
 					}

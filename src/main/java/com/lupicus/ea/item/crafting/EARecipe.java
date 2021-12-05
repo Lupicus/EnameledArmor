@@ -5,20 +5,20 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.lupicus.ea.Main;
 
-import net.minecraft.inventory.CraftingInventory;
-import net.minecraft.item.DyeItem;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.item.crafting.IRecipeSerializer;
-import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.item.crafting.ShapedRecipe;
-import net.minecraft.item.crafting.ShapelessRecipe;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.JSONUtils;
-import net.minecraft.util.NonNullList;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.core.NonNullList;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.GsonHelper;
+import net.minecraft.world.inventory.CraftingContainer;
+import net.minecraft.world.item.DyeItem;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.ShapedRecipe;
+import net.minecraft.world.item.crafting.ShapelessRecipe;
 
 public class EARecipe extends ShapelessRecipe
 {
@@ -32,13 +32,13 @@ public class EARecipe extends ShapelessRecipe
 		super(idIn, groupIn, recipeOutputIn, recipeItemsIn);
 		operation = operationIn;
 		boolean copyDamage = false;
-		if (recipeOutputIn.isDamageable())
+		if (recipeOutputIn.isDamageableItem())
 		{
 			for (Ingredient thing : recipeItemsIn)
 			{
-				for (ItemStack stack : thing.getMatchingStacks())
+				for (ItemStack stack : thing.getItems())
 				{
-					if (stack.isDamageable() && stack.getMaxDamage() == recipeOutputIn.getMaxDamage())
+					if (stack.isDamageableItem() && stack.getMaxDamage() == recipeOutputIn.getMaxDamage())
 					{
 						copyDamage = true;
 						break;
@@ -50,25 +50,25 @@ public class EARecipe extends ShapelessRecipe
 	}
 
 	@Override
-	public IRecipeSerializer<?> getSerializer()
+	public RecipeSerializer<?> getSerializer()
 	{
 		return CRAFTING_EA;
 	}
 
     @Override
-    public ItemStack getCraftingResult(CraftingInventory inv)
+    public ItemStack assemble(CraftingContainer inv)
     {
-        ItemStack ret = this.getRecipeOutput().copy();
+        ItemStack ret = this.getResultItem().copy();
         if (copyDamage)
         {
-    	    for (int j = 0; j < inv.getSizeInventory(); ++j)
+    	    for (int j = 0; j < inv.getContainerSize(); ++j)
     	    {
-    	    	ItemStack itemstack = inv.getStackInSlot(j);
+    	    	ItemStack itemstack = inv.getItem(j);
     	        if (!itemstack.isEmpty())
     	        {
-    	        	if (itemstack.isDamageable() && itemstack.getMaxDamage() == ret.getMaxDamage())
+    	        	if (itemstack.isDamageableItem() && itemstack.getMaxDamage() == ret.getMaxDamage())
     	        	{
-    	        		ret.setDamage(itemstack.getDamage());
+    	        		ret.setDamageValue(itemstack.getDamageValue());
     	        		if (itemstack.hasTag())
     	        		{
     	        			ret.setTag(itemstack.getTag().copy());
@@ -80,16 +80,16 @@ public class EARecipe extends ShapelessRecipe
         }
         if (operation.equals("reset_color"))
         {
-    		CompoundNBT compoundnbt = ret.getChildTag("display");
+    		CompoundTag compoundnbt = ret.getTagElement("display");
     		if (compoundnbt != null && compoundnbt.contains("color", 99))
     			compoundnbt.remove("color");
         }
         else if (operation.equals("set_color"))
         {
 	    	int color = -1;
-    	    for (int j = 0; j < inv.getSizeInventory(); ++j)
+    	    for (int j = 0; j < inv.getContainerSize(); ++j)
     	    {
-    	    	ItemStack itemstack = inv.getStackInSlot(j);
+    	    	ItemStack itemstack = inv.getItem(j);
     	        if (!itemstack.isEmpty())
     	        {
     	        	Item item = itemstack.getItem();
@@ -121,7 +121,7 @@ public class EARecipe extends ShapelessRecipe
     	    }
     	    if (color >= 0)
     	    {
-        		CompoundNBT compoundnbt = ret.getOrCreateChildTag("display");
+        		CompoundTag compoundnbt = ret.getOrCreateTagElement("display");
         		compoundnbt.putInt("color", color);
     	    }
     	    else
@@ -129,13 +129,13 @@ public class EARecipe extends ShapelessRecipe
         }
         else if (operation.equals("remove"))
         {
-    		CompoundNBT compoundnbt = ret.getChildTag("display");
+    		CompoundTag compoundnbt = ret.getTagElement("display");
     		if (compoundnbt != null)
     		{
     			compoundnbt.remove("color");
     			compoundnbt.remove("glint");
     			if (compoundnbt.isEmpty())
-    				ret.removeChildTag("display");
+    				ret.removeTagKey("display");
     		}
         }
         return ret;
@@ -146,28 +146,28 @@ public class EARecipe extends ShapelessRecipe
 		private static final ResourceLocation NAME = new ResourceLocation(Main.MODID, "crafting_shapeless");
 
 		@Override
-	    public EARecipe read(ResourceLocation recipeId, JsonObject json)
+	    public EARecipe fromJson(ResourceLocation recipeId, JsonObject json)
 	    {
-	        String s = JSONUtils.getString(json, "group", "");
-	        NonNullList<Ingredient> nonnulllist = readIngredients(JSONUtils.getJsonArray(json, "ingredients"));
+	        String s = GsonHelper.getAsString(json, "group", "");
+	        NonNullList<Ingredient> nonnulllist = itemsFromJson(GsonHelper.getAsJsonArray(json, "ingredients"));
 	        if (nonnulllist.isEmpty()) {
 	        	throw new JsonParseException("No ingredients for shapeless recipe");
 //	        } else if (nonnulllist.size() > ShapedRecipe.getWidth() * ShapedRecipe.getHeight()) {
 //	           throw new JsonParseException("Too many ingredients for shapeless recipe the max is " + (ShapedRecipe.getWidth() * ShapedRecipe.getHeight()));
 	        } else {
-	        	ItemStack itemstack = ShapedRecipe.deserializeItem(JSONUtils.getJsonObject(json, "result"));
-		        String s2 = JSONUtils.getString(json, "operation", "");
+	        	ItemStack itemstack = ShapedRecipe.itemStackFromJson(GsonHelper.getAsJsonObject(json, "result"));
+		        String s2 = GsonHelper.getAsString(json, "operation", "");
 	        	return new EARecipe(recipeId, s, itemstack, nonnulllist, s2);
 	        }
 	    }
 	      
-	    private static NonNullList<Ingredient> readIngredients(JsonArray array)
+	    private static NonNullList<Ingredient> itemsFromJson(JsonArray array)
 	    {
 	        NonNullList<Ingredient> nonnulllist = NonNullList.create();
 
 	        for (int i = 0; i < array.size(); ++i) {
-	        	Ingredient ingredient = Ingredient.deserialize(array.get(i));
-	            if (!ingredient.hasNoMatchingItems()) {
+	        	Ingredient ingredient = Ingredient.fromJson(array.get(i));
+	            if (!ingredient.isEmpty()) {
 	            	nonnulllist.add(ingredient);
 	            }
 	        }
@@ -176,26 +176,26 @@ public class EARecipe extends ShapelessRecipe
 	    }
 
 	    @Override
-	    public EARecipe read(ResourceLocation recipeId, PacketBuffer buffer)
+	    public EARecipe fromNetwork(ResourceLocation recipeId, FriendlyByteBuf buffer)
 	    {
-	        String s = buffer.readString(32767);
+	        String s = buffer.readUtf();
 	        int i = buffer.readVarInt();
 	        NonNullList<Ingredient> nonnulllist = NonNullList.withSize(i, Ingredient.EMPTY);
 
 	        for (int j = 0; j < nonnulllist.size(); ++j) {
-	        	nonnulllist.set(j, Ingredient.read(buffer));
+	        	nonnulllist.set(j, Ingredient.fromNetwork(buffer));
 	        }
 
-	        ItemStack itemstack = buffer.readItemStack();
-	        String s2 = buffer.readString(32767);
+	        ItemStack itemstack = buffer.readItem();
+	        String s2 = buffer.readUtf();
 	        return new EARecipe(recipeId, s, itemstack, nonnulllist, s2);
 	    }
 
 	    @Override
-	    public void write(PacketBuffer buffer, ShapelessRecipe recipe)
+	    public void toNetwork(FriendlyByteBuf buffer, ShapelessRecipe recipe)
 	    {
-	    	super.write(buffer, recipe);
-	    	buffer.writeString(((EARecipe)recipe).operation);
+	    	super.toNetwork(buffer, recipe);
+	    	buffer.writeUtf(((EARecipe)recipe).operation);
 	    }
 	}
 }
