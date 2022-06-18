@@ -24,7 +24,8 @@ public class EARecipe extends ShapelessRecipe
 {
 	protected final String operation;
 	private final boolean copyDamage;
-	public static final Serializer CRAFTING_EA = (Serializer) new Serializer().setRegistryName(Serializer.NAME);
+	public static final Serializer SERIALIZER = new Serializer();
+	public static final ResourceLocation NAME = new ResourceLocation(Main.MODID, "crafting_shapeless");
 
 	public EARecipe(ResourceLocation idIn, String groupIn, ItemStack recipeOutputIn,
 			NonNullList<Ingredient> recipeItemsIn, String operationIn)
@@ -52,7 +53,7 @@ public class EARecipe extends ShapelessRecipe
 	@Override
 	public RecipeSerializer<?> getSerializer()
 	{
-		return CRAFTING_EA;
+		return SERIALIZER;
 	}
 
     @Override
@@ -143,8 +144,6 @@ public class EARecipe extends ShapelessRecipe
 
 	public static class Serializer extends ShapelessRecipe.Serializer
 	{
-		private static final ResourceLocation NAME = new ResourceLocation(Main.MODID, "crafting_shapeless");
-
 		@Override
 	    public EARecipe fromJson(ResourceLocation recipeId, JsonObject json)
 	    {

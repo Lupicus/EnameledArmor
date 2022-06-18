@@ -1,7 +1,5 @@
 package com.lupicus.ea.item;
 
-import com.lupicus.ea.Main;
-
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.SwordItem;
@@ -9,10 +7,9 @@ import net.minecraft.world.item.Tier;
 
 public class EASwordItem extends SwordItem implements IGuiRightClick
 {
-	public EASwordItem(Tier tier, int damage, float speed, Properties prop, String name)
+	public EASwordItem(Tier tier, int damage, float speed, Properties prop)
 	{
 		super(tier, damage, speed, prop);
-		setRegistryName(Main.MODID, name);
 	}
 
 	@Override

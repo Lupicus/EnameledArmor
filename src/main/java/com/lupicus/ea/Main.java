@@ -1,19 +1,22 @@
 package com.lupicus.ea;
 
+import org.jetbrains.annotations.NotNull;
+
 import com.lupicus.ea.item.ModItems;
 import com.lupicus.ea.item.crafting.EARecipe;
 import com.lupicus.ea.network.Register;
 
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.core.Registry;
+import net.minecraft.resources.ResourceKey;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.event.ColorHandlerEvent;
-import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.client.event.RegisterColorHandlersEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegisterEvent;
 
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod(Main.MODID)
@@ -34,23 +37,22 @@ public class Main
     @Mod.EventBusSubscriber(bus=Mod.EventBusSubscriber.Bus.MOD)
     public static class ModEvents
     {
-    	@SubscribeEvent
-    	public static void onItemsRegistry(final RegistryEvent.Register<Item> event)
-    	{
-    		ModItems.register(event.getRegistry());
-    	}
+	    @SubscribeEvent
+	    public static void onRegister(final RegisterEvent event)
+	    {
+	    	@NotNull
+			ResourceKey<? extends Registry<?>> key = event.getRegistryKey();
+	    	if (key.equals(ForgeRegistries.Keys.ITEMS))
+	    		ModItems.register(event.getForgeRegistry());
+	    	else if (key.equals(ForgeRegistries.Keys.RECIPE_SERIALIZERS))
+	    		event.getForgeRegistry().register(EARecipe.NAME, EARecipe.SERIALIZER);
+	    }
 
         @OnlyIn(Dist.CLIENT)
         @SubscribeEvent
-        public static void onColorsRegistry(final ColorHandlerEvent.Item event)
+        public static void onColorsRegistry(final RegisterColorHandlersEvent.Item event)
         {
-        	ModItems.register(event.getItemColors());
-        }
-
-        @SubscribeEvent
-        public static void onRecipeRegistry(final RegistryEvent.Register<RecipeSerializer<?>> event)
-        {
-        	event.getRegistry().register(EARecipe.CRAFTING_EA);
+        	ModItems.register(event);
         }
     }
 }

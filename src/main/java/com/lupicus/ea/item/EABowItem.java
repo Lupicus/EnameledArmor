@@ -1,17 +1,14 @@
 package com.lupicus.ea.item;
 
-import com.lupicus.ea.Main;
-
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.BowItem;
 import net.minecraft.world.item.ItemStack;
 
 public class EABowItem extends BowItem implements IGuiRightClick 
 {
-	public EABowItem(Properties prop, String name) 
+	public EABowItem(Properties prop) 
 	{
 		super(prop);
-		setRegistryName(Main.MODID, name);
 	}
 
 	@Override
