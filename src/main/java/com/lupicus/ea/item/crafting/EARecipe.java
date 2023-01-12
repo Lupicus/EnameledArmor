@@ -15,6 +15,7 @@ import net.minecraft.world.item.DyeItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.CraftingBookCategory;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.ShapedRecipe;
@@ -27,10 +28,10 @@ public class EARecipe extends ShapelessRecipe
 	public static final Serializer SERIALIZER = new Serializer();
 	public static final ResourceLocation NAME = new ResourceLocation(Main.MODID, "crafting_shapeless");
 
-	public EARecipe(ResourceLocation idIn, String groupIn, ItemStack recipeOutputIn,
+	public EARecipe(ResourceLocation idIn, String groupIn, CraftingBookCategory catIn, ItemStack recipeOutputIn,
 			NonNullList<Ingredient> recipeItemsIn, String operationIn)
 	{
-		super(idIn, groupIn, recipeOutputIn, recipeItemsIn);
+		super(idIn, groupIn, catIn, recipeOutputIn, recipeItemsIn);
 		operation = operationIn;
 		boolean copyDamage = false;
 		if (recipeOutputIn.isDamageableItem())
@@ -144,10 +145,12 @@ public class EARecipe extends ShapelessRecipe
 
 	public static class Serializer extends ShapelessRecipe.Serializer
 	{
+		@SuppressWarnings("deprecation")
 		@Override
 	    public EARecipe fromJson(ResourceLocation recipeId, JsonObject json)
 	    {
 	        String s = GsonHelper.getAsString(json, "group", "");
+			CraftingBookCategory cat = CraftingBookCategory.CODEC.byName(GsonHelper.getAsString(json, "category", (String) null), CraftingBookCategory.MISC);
 	        NonNullList<Ingredient> nonnulllist = itemsFromJson(GsonHelper.getAsJsonArray(json, "ingredients"));
 	        if (nonnulllist.isEmpty()) {
 	        	throw new JsonParseException("No ingredients for shapeless recipe");
@@ -156,7 +159,7 @@ public class EARecipe extends ShapelessRecipe
 	        } else {
 	        	ItemStack itemstack = ShapedRecipe.itemStackFromJson(GsonHelper.getAsJsonObject(json, "result"));
 		        String s2 = GsonHelper.getAsString(json, "operation", "");
-	        	return new EARecipe(recipeId, s, itemstack, nonnulllist, s2);
+	        	return new EARecipe(recipeId, s, cat, itemstack, nonnulllist, s2);
 	        }
 	    }
 	      
@@ -178,6 +181,7 @@ public class EARecipe extends ShapelessRecipe
 	    public EARecipe fromNetwork(ResourceLocation recipeId, FriendlyByteBuf buffer)
 	    {
 	        String s = buffer.readUtf();
+			CraftingBookCategory cat = buffer.readEnum(CraftingBookCategory.class);
 	        int i = buffer.readVarInt();
 	        NonNullList<Ingredient> nonnulllist = NonNullList.withSize(i, Ingredient.EMPTY);
 
@@ -187,7 +191,7 @@ public class EARecipe extends ShapelessRecipe
 
 	        ItemStack itemstack = buffer.readItem();
 	        String s2 = buffer.readUtf();
-	        return new EARecipe(recipeId, s, itemstack, nonnulllist, s2);
+	        return new EARecipe(recipeId, s, cat, itemstack, nonnulllist, s2);
 	    }
 
 	    @Override

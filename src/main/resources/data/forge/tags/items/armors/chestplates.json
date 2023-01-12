@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "ea:ea_chestplate",
+    "ea:ea_iron_chestplate",
+    "ea:ea_netherite_chestplate",
+    "ea:ea_chainmail_chestplate"
+  ]
+}

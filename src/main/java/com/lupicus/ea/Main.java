@@ -11,6 +11,7 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.RegisterColorHandlersEvent;
+import net.minecraftforge.event.CreativeModeTabEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -34,7 +35,7 @@ public class Main
 		Register.initPackets();
 	}
 
-    @Mod.EventBusSubscriber(bus=Mod.EventBusSubscriber.Bus.MOD)
+    @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
     public static class ModEvents
     {
 	    @SubscribeEvent
@@ -46,6 +47,12 @@ public class Main
 	    		ModItems.register(event.getForgeRegistry());
 	    	else if (key.equals(ForgeRegistries.Keys.RECIPE_SERIALIZERS))
 	    		event.getForgeRegistry().register(EARecipe.NAME, EARecipe.SERIALIZER);
+	    }
+
+	    @SubscribeEvent
+	    public static void onCreativeTab(CreativeModeTabEvent.BuildContents event)
+	    {
+	    	ModItems.setupTabs(event);
 	    }
 
         @OnlyIn(Dist.CLIENT)
