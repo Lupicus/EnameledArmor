@@ -1,16 +1,16 @@
 package com.lupicus.ea.item;
 
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.DyeableArmorItem;
 import net.minecraft.world.item.ItemStack;
 
 public class EAArmorItem extends DyeableArmorItem implements IGuiRightClick
 {
-	public EAArmorItem(ArmorMaterial material, EquipmentSlot slot, Properties prop)
+	public EAArmorItem(ArmorMaterial material, ArmorItem.Type type, Properties prop)
 	{
-		super(material, slot, prop);
+		super(material, type, prop);
 	}
 
 	@Override

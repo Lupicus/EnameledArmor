@@ -6,6 +6,7 @@ import com.google.gson.JsonParseException;
 import com.lupicus.ea.Main;
 
 import net.minecraft.core.NonNullList;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
@@ -58,9 +59,9 @@ public class EARecipe extends ShapelessRecipe
 	}
 
     @Override
-    public ItemStack assemble(CraftingContainer inv)
+    public ItemStack assemble(CraftingContainer inv, RegistryAccess reg)
     {
-        ItemStack ret = this.getResultItem().copy();
+        ItemStack ret = this.getResultItem(reg).copy();
         if (copyDamage)
         {
     	    for (int j = 0; j < inv.getContainerSize(); ++j)

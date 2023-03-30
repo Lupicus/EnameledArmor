@@ -43,6 +43,6 @@ public class Network
 
 	public static <MSG> void sendToClient(MSG msg, ServerPlayer player)
 	{
-		INSTANCE.sendTo(msg, player.connection.getConnection(), NetworkDirection.PLAY_TO_CLIENT);
+		INSTANCE.sendTo(msg, player.connection.connection, NetworkDirection.PLAY_TO_CLIENT);
 	}
 }

@@ -3,7 +3,7 @@ package com.lupicus.ea.item;
 import com.lupicus.ea.Main;
 
 import net.minecraft.sounds.SoundEvent;
-import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.crafting.Ingredient;
 
@@ -18,13 +18,13 @@ public class EAArmorMaterial implements ArmorMaterial
 	}
 
 	@Override
-	public int getDurabilityForSlot(EquipmentSlot slotIn) {
-		return clone.getDurabilityForSlot(slotIn);
+	public int getDurabilityForType(ArmorItem.Type typeIn) {
+		return clone.getDurabilityForType(typeIn);
 	}
 
 	@Override
-	public int getDefenseForSlot(EquipmentSlot slotIn) {
-		return clone.getDefenseForSlot(slotIn);
+	public int getDefenseForType(ArmorItem.Type typeIn) {
+		return clone.getDefenseForType(typeIn);
 	}
 
 	@Override
@@ -46,7 +46,6 @@ public class EAArmorMaterial implements ArmorMaterial
 	public String getName()
 	{
 		return Main.MODID + ":" + materialName;
-		//		return "ea:ea";
 	}
 
 	@Override

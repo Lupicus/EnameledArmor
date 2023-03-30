@@ -1,6 +1,6 @@
 package com.lupicus.ea.item;
 
-import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.ArmorMaterials;
 import net.minecraft.world.item.CreativeModeTabs;
@@ -18,32 +18,32 @@ public class ModItems
 {
 	// "ea" is not "ea_diamond" for backwards compatibility
 	private static final ArmorMaterial DA_MATERIAL = new EAArmorMaterial(ArmorMaterials.DIAMOND, "ea");
-	public static final Item EA_HELMET = new EAArmorItem(DA_MATERIAL, EquipmentSlot.HEAD, new Properties());
-	public static final Item EA_CHESTPLATE = new EAArmorItem(DA_MATERIAL, EquipmentSlot.CHEST, new Properties());
-	public static final Item EA_LEGGINGS = new EAArmorItem(DA_MATERIAL, EquipmentSlot.LEGS, new Properties());
-	public static final Item EA_BOOTS = new EAArmorItem(DA_MATERIAL, EquipmentSlot.FEET, new Properties());
+	public static final Item EA_HELMET = new EAArmorItem(DA_MATERIAL, ArmorItem.Type.HELMET, new Properties());
+	public static final Item EA_CHESTPLATE = new EAArmorItem(DA_MATERIAL, ArmorItem.Type.CHESTPLATE, new Properties());
+	public static final Item EA_LEGGINGS = new EAArmorItem(DA_MATERIAL, ArmorItem.Type.LEGGINGS, new Properties());
+	public static final Item EA_BOOTS = new EAArmorItem(DA_MATERIAL, ArmorItem.Type.BOOTS, new Properties());
 	// 	Swords have no color- just enchantment glint.
 	public static final Item EA_DIAMOND_SWORD = new EASwordItem(Tiers.DIAMOND, 3, -2.4F, new Properties());
 	public static final Item EA_BOW = new EABowItem((new Properties()).durability(384));
 
 	private static final ArmorMaterial CH_MATERIAL = new EAArmorMaterial(ArmorMaterials.CHAIN, "ea_chainmail");
-	public static final Item EA_CHAINMAIL_HELMET = new EAArmorItem(CH_MATERIAL, EquipmentSlot.HEAD, new Properties());
-	public static final Item EA_CHAINMAIL_CHESTPLATE = new EAArmorItem(CH_MATERIAL, EquipmentSlot.CHEST, new Properties());
-	public static final Item EA_CHAINMAIL_LEGGINGS = new EAArmorItem(CH_MATERIAL, EquipmentSlot.LEGS, new Properties());
-	public static final Item EA_CHAINMAIL_BOOTS = new EAArmorItem(CH_MATERIAL, EquipmentSlot.FEET, new Properties());
+	public static final Item EA_CHAINMAIL_HELMET = new EAArmorItem(CH_MATERIAL, ArmorItem.Type.HELMET, new Properties());
+	public static final Item EA_CHAINMAIL_CHESTPLATE = new EAArmorItem(CH_MATERIAL, ArmorItem.Type.CHESTPLATE, new Properties());
+	public static final Item EA_CHAINMAIL_LEGGINGS = new EAArmorItem(CH_MATERIAL, ArmorItem.Type.LEGGINGS, new Properties());
+	public static final Item EA_CHAINMAIL_BOOTS = new EAArmorItem(CH_MATERIAL, ArmorItem.Type.BOOTS, new Properties());
 
 	private static final ArmorMaterial NT_MATERIAL = new EAArmorMaterial(ArmorMaterials.NETHERITE, "ea_netherite");
-	public static final Item EA_NETHERITE_HELMET = new EAArmorItem(NT_MATERIAL, EquipmentSlot.HEAD, new Properties().fireResistant());
-	public static final Item EA_NETHERITE_CHESTPLATE = new EAArmorItem(NT_MATERIAL, EquipmentSlot.CHEST, new Properties().fireResistant());
-	public static final Item EA_NETHERITE_LEGGINGS = new EAArmorItem(NT_MATERIAL, EquipmentSlot.LEGS, new Properties().fireResistant());
-	public static final Item EA_NETHERITE_BOOTS = new EAArmorItem(NT_MATERIAL, EquipmentSlot.FEET, new Properties().fireResistant());
+	public static final Item EA_NETHERITE_HELMET = new EAArmorItem(NT_MATERIAL, ArmorItem.Type.HELMET, new Properties().fireResistant());
+	public static final Item EA_NETHERITE_CHESTPLATE = new EAArmorItem(NT_MATERIAL, ArmorItem.Type.CHESTPLATE, new Properties().fireResistant());
+	public static final Item EA_NETHERITE_LEGGINGS = new EAArmorItem(NT_MATERIAL, ArmorItem.Type.LEGGINGS, new Properties().fireResistant());
+	public static final Item EA_NETHERITE_BOOTS = new EAArmorItem(NT_MATERIAL, ArmorItem.Type.BOOTS, new Properties().fireResistant());
 	public static final Item EA_NETHERITE_SWORD = new EASwordItem(Tiers.NETHERITE, 3, -2.4F, new Properties().fireResistant());
 
 	private static final ArmorMaterial IR_MATERIAL = new EAArmorMaterial(ArmorMaterials.IRON, "ea_iron");
-	public static final Item EA_IRON_HELMET = new EAArmorItem(IR_MATERIAL, EquipmentSlot.HEAD, new Properties());
-	public static final Item EA_IRON_CHESTPLATE = new EAArmorItem(IR_MATERIAL, EquipmentSlot.CHEST, new Properties());
-	public static final Item EA_IRON_LEGGINGS = new EAArmorItem(IR_MATERIAL, EquipmentSlot.LEGS, new Properties());
-	public static final Item EA_IRON_BOOTS = new EAArmorItem(IR_MATERIAL, EquipmentSlot.FEET, new Properties());
+	public static final Item EA_IRON_HELMET = new EAArmorItem(IR_MATERIAL, ArmorItem.Type.HELMET, new Properties());
+	public static final Item EA_IRON_CHESTPLATE = new EAArmorItem(IR_MATERIAL, ArmorItem.Type.CHESTPLATE, new Properties());
+	public static final Item EA_IRON_LEGGINGS = new EAArmorItem(IR_MATERIAL, ArmorItem.Type.LEGGINGS, new Properties());
+	public static final Item EA_IRON_BOOTS = new EAArmorItem(IR_MATERIAL, ArmorItem.Type.BOOTS, new Properties());
 	public static final Item EA_IRON_SWORD = new EASwordItem(Tiers.IRON, 3, -2.4F, new Properties());
 
 	public static void register(IForgeRegistry<Item> forgeRegistry)
