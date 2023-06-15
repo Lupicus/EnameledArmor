@@ -1,7 +1,8 @@
 {
     "pack": {
-        "description": "Enameled Armor resources",
-        "pack_format": 13,
-        "forge:server_data_pack_format": 12
+        "description": {
+            "text": "Enameled Armor resources"
+        },
+        "pack_format": 15
     }
 }

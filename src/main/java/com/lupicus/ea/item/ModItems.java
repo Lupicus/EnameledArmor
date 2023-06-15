@@ -11,7 +11,7 @@ import net.minecraft.world.item.Tiers;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.RegisterColorHandlersEvent;
-import net.minecraftforge.event.CreativeModeTabEvent;
+import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.registries.IForgeRegistry;
 
 public class ModItems
@@ -73,9 +73,9 @@ public class ModItems
 		forgeRegistry.register("ea_chainmail_boots", EA_CHAINMAIL_BOOTS);
 	}
 
-	public static void setupTabs(CreativeModeTabEvent.BuildContents event)
+	public static void setupTabs(BuildCreativeModeTabContentsEvent event)
 	{
-		if (event.getTab() == CreativeModeTabs.COMBAT)
+		if (event.getTabKey() == CreativeModeTabs.COMBAT)
 		{
 			event.accept(EA_CHAINMAIL_HELMET);
 			event.accept(EA_CHAINMAIL_CHESTPLATE);

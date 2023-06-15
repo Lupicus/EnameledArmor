@@ -1,7 +1,0 @@
-{
-    "parent": "item/generated",
-    "textures": {
-        "layer0": "ea:item/ea_chestplate",
-        "layer1": "ea:item/ea_chestplate_overlay"
-    }
-}

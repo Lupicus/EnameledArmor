@@ -1,0 +1,21 @@
+{
+  "replace": false,
+  "values": [
+    "ea:ea_helmet",
+    "ea:ea_chestplate",
+    "ea:ea_leggings",
+    "ea:ea_boots",
+    "ea:ea_iron_helmet",
+    "ea:ea_iron_chestplate",
+    "ea:ea_iron_leggings",
+    "ea:ea_iron_boots",
+    "ea:ea_netherite_helmet",
+    "ea:ea_netherite_chestplate",
+    "ea:ea_netherite_leggings",
+    "ea:ea_netherite_boots",
+    "ea:ea_chainmail_helmet",
+    "ea:ea_chainmail_chestplate",
+    "ea:ea_chainmail_leggings",
+    "ea:ea_chainmail_boots"
+  ]
+}

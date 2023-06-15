@@ -1,7 +1,0 @@
-{
-    "parent": "item/generated",
-    "textures": {
-        "layer0": "ea:item/ea_chainmail_boots",
-        "layer1": "ea:item/ea_chainmail_boots_overlay"
-    }
-}
