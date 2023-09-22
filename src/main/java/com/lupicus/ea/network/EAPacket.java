@@ -1,7 +1,5 @@
 package com.lupicus.ea.network;
 
-import java.util.function.Supplier;
-
 import com.lupicus.ea.item.IGuiRightClick;
 
 import net.minecraft.network.FriendlyByteBuf;
@@ -9,7 +7,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.network.NetworkEvent;
+import net.minecraftforge.event.network.CustomPayloadEvent.Context;
 
 public class EAPacket
 {
@@ -44,12 +42,12 @@ public class EAPacket
 		msg.encode(buf);
 	}
 
-	public static void processPacket(EAPacket message, Supplier<NetworkEvent.Context> ctx)
+	public static void processPacket(EAPacket message, Context ctx)
 	{
-		ServerPlayer player = ctx.get().getSender();
+		ServerPlayer player = ctx.getSender();
 		if (message.cmd == 1)
 		{
-			ctx.get().enqueueWork(() -> {
+			ctx.enqueueWork(() -> {
 				AbstractContainerMenu cont = player.containerMenu;
 				if (message.windowId == cont.containerId && message.index >= 0)
 				{
@@ -59,13 +57,13 @@ public class EAPacket
 						ItemStack stack = slot.getItem();
 						if (stack.getItem() instanceof IGuiRightClick)
 						{
-							((IGuiRightClick)stack.getItem()).menuRightClick(stack);
+							((IGuiRightClick) stack.getItem()).menuRightClick(stack);
 							slot.setChanged();
 						}
 					}
 				}
 			});
 		}
-		ctx.get().setPacketHandled(true);
+		ctx.setPacketHandled(true);
 	}
 }
