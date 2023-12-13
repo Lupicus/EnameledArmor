@@ -17,7 +17,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.CraftingBookCategory;
-import net.minecraft.world.item.crafting.CraftingRecipeCodecs;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.ShapelessRecipe;
@@ -151,7 +150,7 @@ public class EARecipe extends ShapelessRecipe
 				return rec.getGroup();
 			}), CraftingBookCategory.CODEC.fieldOf("category").orElse(CraftingBookCategory.MISC).forGetter((rec) -> {
 				return rec.category();
-			}), CraftingRecipeCodecs.ITEMSTACK_OBJECT_CODEC.fieldOf("result").forGetter((rec) -> {
+			}), ItemStack.ITEM_WITH_COUNT_CODEC.fieldOf("result").forGetter((rec) -> {
 				return rec.getResultItem(RegistryAccess.EMPTY);
 			}), Ingredient.CODEC_NONEMPTY.listOf().fieldOf("ingredients").flatXmap((list) -> {
 				Ingredient[] aingredient = list.stream().filter((ingrid) -> {
