@@ -1,0 +1,16 @@
+{
+  "type": "ea:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    {
+      "item": "minecraft:iron_boots"
+    },
+    {
+      "item": "minecraft:clay_ball"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "ea:ea_iron_boots"
+  }
+}

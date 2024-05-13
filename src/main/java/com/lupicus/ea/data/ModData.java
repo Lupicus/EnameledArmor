@@ -16,5 +16,6 @@ public class ModData
 	{
 		DataGenerator dg = event.getGenerator();
 		dg.addProvider(event.includeClient(), new EAModelProvider(dg.getPackOutput(), event.getExistingFileHelper()));
+		dg.addProvider(event.includeServer(), new EARecipeProvider(dg.getPackOutput(), event.getLookupProvider()));
 	}
 }

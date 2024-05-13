@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "ea:ea_boots",
+    "ea:ea_iron_boots",
+    "ea:ea_netherite_boots",
+    "ea:ea_chainmail_boots"
+  ]
+}

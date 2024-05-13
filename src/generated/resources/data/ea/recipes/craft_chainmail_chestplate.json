@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "N": {
+      "item": "minecraft:iron_nugget"
+    },
+    "X": {
+      "item": "minecraft:iron_ingot"
+    }
+  },
+  "pattern": [
+    "X X",
+    "NXN",
+    "XNX"
+  ],
+  "result": {
+    "count": 1,
+    "id": "minecraft:chainmail_chestplate"
+  }
+}

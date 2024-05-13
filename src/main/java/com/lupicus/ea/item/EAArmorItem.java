@@ -1,41 +1,15 @@
 package com.lupicus.ea.item;
 
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.core.Holder;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterial;
-import net.minecraft.world.item.DyeableArmorItem;
-import net.minecraft.world.item.ItemStack;
 
-public class EAArmorItem extends DyeableArmorItem implements IGuiRightClick
+public class EAArmorItem extends ArmorItem implements IGuiRightClick
 {
-	public EAArmorItem(ArmorMaterial material, ArmorItem.Type type, Properties prop)
+	public static final int DEFCOLOR = 0xFFCAC8C8;
+
+	public EAArmorItem(Holder<ArmorMaterial> material, ArmorItem.Type type, Properties prop)
 	{
 		super(material, type, prop);
-	}
-
-	@Override
-	public int getColor(ItemStack stack)
-	{
-		CompoundTag compoundnbt = stack.getTagElement("display");
-		return compoundnbt != null && compoundnbt.contains("color", 99) ? compoundnbt.getInt("color") : 0xCAC8C8;
-	}
-
-	@Override
-	public boolean isFoil(ItemStack stack)
-	{
-		CompoundTag compoundnbt = stack.getTagElement("display");
-		boolean glint = compoundnbt != null && compoundnbt.contains("glint", 1) ? compoundnbt.getBoolean("glint") : false;
-		return glint && super.isFoil(stack);
-	}
-
-	@Override
-	public void menuRightClick(ItemStack stack)
-	{
-		CompoundTag compoundnbt = stack.getOrCreateTagElement("display");
-		boolean glint = compoundnbt.contains("glint", 1) && compoundnbt.getBoolean("glint");
-		if (glint)
-			compoundnbt.remove("glint");
-		else
-			compoundnbt.putBoolean("glint", true);
 	}
 }

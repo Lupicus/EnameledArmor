@@ -1,0 +1,14 @@
+{
+  "type": "ea:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    {
+      "item": "ea:ea_chainmail_boots"
+    }
+  ],
+  "operation": "reset_color",
+  "result": {
+    "count": 1,
+    "id": "ea:ea_chainmail_boots"
+  }
+}

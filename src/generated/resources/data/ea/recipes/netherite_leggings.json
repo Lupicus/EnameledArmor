@@ -1,0 +1,17 @@
+{
+  "type": "ea:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    {
+      "item": "ea:ea_netherite_leggings"
+    },
+    {
+      "item": "minecraft:gravel"
+    }
+  ],
+  "operation": "remove",
+  "result": {
+    "count": 1,
+    "id": "minecraft:netherite_leggings"
+  }
+}

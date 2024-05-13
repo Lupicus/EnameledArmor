@@ -8,8 +8,6 @@ import com.lupicus.ea.network.Register;
 
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.RegisterColorHandlersEvent;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -55,7 +53,6 @@ public class Main
 	    	ModItems.setupTabs(event);
 	    }
 
-        @OnlyIn(Dist.CLIENT)
         @SubscribeEvent
         public static void onColorsRegistry(final RegisterColorHandlersEvent.Item event)
         {

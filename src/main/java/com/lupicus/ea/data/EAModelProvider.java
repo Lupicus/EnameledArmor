@@ -8,6 +8,7 @@ import com.lupicus.ea.Main;
 import com.lupicus.ea.item.EAArmorItem;
 import com.lupicus.ea.item.ModItems;
 
+import net.minecraft.core.Holder;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.models.ItemModelGenerators;
 import net.minecraft.resources.ResourceLocation;
@@ -126,8 +127,8 @@ public class EAModelProvider extends ItemModelProvider
 		return ret;
 	}
 
-	static record TrimModelData(String name, float itemModelIndex, Map<ArmorMaterial, String> overrideArmorMaterials) {
-		public String name(ArmorMaterial mat) {
+	static record TrimModelData(String name, float itemModelIndex, Map<Holder<ArmorMaterial>, String> overrideArmorMaterials) {
+		public String name(Holder<ArmorMaterial> mat) {
 			return this.overrideArmorMaterials.getOrDefault(mat, this.name);
 		}
 	}

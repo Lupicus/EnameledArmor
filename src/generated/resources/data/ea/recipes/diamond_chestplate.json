@@ -1,0 +1,17 @@
+{
+  "type": "ea:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    {
+      "item": "ea:ea_chestplate"
+    },
+    {
+      "item": "minecraft:gravel"
+    }
+  ],
+  "operation": "remove",
+  "result": {
+    "count": 1,
+    "id": "minecraft:diamond_chestplate"
+  }
+}

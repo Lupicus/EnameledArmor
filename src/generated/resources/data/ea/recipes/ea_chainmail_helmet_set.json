@@ -1,0 +1,20 @@
+{
+  "type": "ea:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    {
+      "item": "ea:ea_chainmail_helmet"
+    },
+    {
+      "tag": "forge:mushrooms"
+    },
+    {
+      "tag": "ea:true_dyes"
+    }
+  ],
+  "operation": "set_color",
+  "result": {
+    "count": 1,
+    "id": "ea:ea_chainmail_helmet"
+  }
+}

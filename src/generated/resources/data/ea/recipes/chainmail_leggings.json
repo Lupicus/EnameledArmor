@@ -1,0 +1,17 @@
+{
+  "type": "ea:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    {
+      "item": "ea:ea_chainmail_leggings"
+    },
+    {
+      "item": "minecraft:gravel"
+    }
+  ],
+  "operation": "remove",
+  "result": {
+    "count": 1,
+    "id": "minecraft:chainmail_leggings"
+  }
+}
