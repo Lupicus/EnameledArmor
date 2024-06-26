@@ -130,18 +130,18 @@ public class EAShapelessRecipeBuilder implements RecipeBuilder
 	public void save(RecipeOutput consumer, String resName) {
 		if (namespace != null || suffix != null)
 		{
-			ResourceLocation work = new ResourceLocation(resName);
+			ResourceLocation work = ResourceLocation.parse(resName);
 			if (namespace != null)
 			{
-				work = new ResourceLocation(namespace, work.getPath());
+				work = ResourceLocation.fromNamespaceAndPath(namespace, work.getPath());
 			}
 			if (suffix != null)
 			{
-				work = new ResourceLocation(work.getNamespace(), work.getPath() + suffix);
+				work = ResourceLocation.fromNamespaceAndPath(work.getNamespace(), work.getPath() + suffix);
 			}
 			resName = work.toString();
 		}
-		ResourceLocation resLoc = new ResourceLocation(resName);
+		ResourceLocation resLoc = ResourceLocation.parse(resName);
 		ResourceLocation iLoc = BuiltInRegistries.ITEM.getKey(result);
 		if (resLoc.equals(iLoc)) {
 			throw new IllegalStateException("Shapeless Recipe " + resName + " should remove its 'save' argument");

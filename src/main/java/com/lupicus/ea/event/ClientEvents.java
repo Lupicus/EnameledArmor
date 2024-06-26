@@ -57,10 +57,10 @@ public class ClientEvents
 				}
 				else
 					index = slot.index;
-				if (cont instanceof RecipeBookMenu<?>)
+				if (cont instanceof RecipeBookMenu<?, ?>)
 				{
 					// skip if in the crafting section
-					if (index < ((RecipeBookMenu<?>)cont).getSize())
+					if (index < ((RecipeBookMenu<?, ?>) cont).getSize())
 						return;
 				}
 				if (index >= 0)

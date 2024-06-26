@@ -22,7 +22,7 @@ import net.minecraftforge.common.Tags;
 
 public class EARecipeProvider extends RecipeProvider
 {
-	TagKey<Item> TRUE_DYES = ItemTags.create(new ResourceLocation(Main.MODID, "true_dyes"));
+	TagKey<Item> TRUE_DYES = ItemTags.create(ResourceLocation.fromNamespaceAndPath(Main.MODID, "true_dyes"));
 
 	public EARecipeProvider(PackOutput packOutput, CompletableFuture<HolderLookup.Provider> lookup) {
 		super(packOutput, lookup);

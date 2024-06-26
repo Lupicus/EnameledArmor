@@ -74,7 +74,7 @@ public class ModItems
 	private static Holder<ArmorMaterial> register(Holder<ArmorMaterial> hcopy, String name)
 	{
 		ArmorMaterial copy = hcopy.get();
-		ResourceLocation res = new ResourceLocation(Main.MODID, name);
+		ResourceLocation res = ResourceLocation.fromNamespaceAndPath(Main.MODID, name);
 		List<Layer> layers = List.of(new ArmorMaterial.Layer(res, "", true), new ArmorMaterial.Layer(res, "_overlay", false));
 		return Registry.registerForHolder(BuiltInRegistries.ARMOR_MATERIAL, res,
 				new ArmorMaterial(copy.defense(), copy.enchantmentValue(), copy.equipSound(), copy.repairIngredient(), layers, copy.toughness(), copy.knockbackResistance()));
