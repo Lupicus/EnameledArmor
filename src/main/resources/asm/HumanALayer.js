@@ -39,7 +39,7 @@ function patch_renderAP(obj) {
 	var node = asmapi.findFirstMethodCall(obj, asmapi.MethodType.STATIC, o1, n1, d1)
 	if (node) {
 		var node2 = node.getPrevious().getPrevious()
-		var node3 = node.getNext()
+		var node3 = node.getNext().getNext()
 		if (node2.getOpcode() == opc.ALOAD && node2.getNext().getOpcode() == opc.LDC && node3.getOpcode() == opc.GOTO) {
 			var o2 = "net/minecraft/world/item/ItemStack"
 			var n2 = "getItem"
@@ -54,8 +54,9 @@ function patch_renderAP(obj) {
 			var op1 = op1.clone(null) // aload
 			var op2 = new LdcInsnNode(-3487544)
 			var op3 = node.clone(null) // call
-			var op4 = new JumpInsnNode(opc.GOTO, node3.label)
-			var list = asmapi.listOf(lbl, op1, op2, op3, op4)
+			var op4 = node.getNext().clone(null) // call
+			var op5 = new JumpInsnNode(opc.GOTO, node3.label)
+			var list = asmapi.listOf(lbl, op1, op2, op3, op4, op5)
 			obj.instructions.insert(node3, list)
 		}
 		else
