@@ -2,9 +2,7 @@
   "type": "ea:crafting_shapeless",
   "category": "equipment",
   "ingredients": [
-    {
-      "item": "ea:ea_boots"
-    }
+    "ea:ea_boots"
   ],
   "operation": "reset_color",
   "result": {

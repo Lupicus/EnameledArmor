@@ -2,9 +2,7 @@
   "type": "ea:crafting_shapeless",
   "category": "equipment",
   "ingredients": [
-    {
-      "item": "ea:ea_helmet"
-    }
+    "ea:ea_helmet"
   ],
   "operation": "reset_color",
   "result": {

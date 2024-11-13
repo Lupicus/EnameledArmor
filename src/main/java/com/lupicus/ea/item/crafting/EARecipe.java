@@ -1,16 +1,18 @@
 package com.lupicus.ea.item.crafting;
 
+import java.util.List;
+
+import javax.annotation.Nullable;
+
 import com.lupicus.ea.Main;
 import com.mojang.serialization.Codec;
-import com.mojang.serialization.DataResult;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
 import net.minecraft.core.HolderLookup;
-import net.minecraft.core.NonNullList;
-import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.DyeItem;
@@ -20,51 +22,82 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.component.DyedItemColor;
 import net.minecraft.world.item.crafting.CraftingBookCategory;
 import net.minecraft.world.item.crafting.CraftingInput;
+import net.minecraft.world.item.crafting.CraftingRecipe;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.PlacementInfo;
 import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraft.world.item.crafting.ShapelessRecipe;
+import net.minecraft.world.item.crafting.display.RecipeDisplay;
+import net.minecraft.world.item.crafting.display.ShapelessCraftingRecipeDisplay;
+import net.minecraft.world.item.crafting.display.SlotDisplay;
+import net.minecraft.world.level.Level;
 
-public class EARecipe extends ShapelessRecipe
+public class EARecipe implements CraftingRecipe
 {
+	final String group;
+	final CraftingBookCategory category;
+	final ItemStack result;
+	final List<Ingredient> ingredients;
+	@Nullable
+	private PlacementInfo placementInfo;
+	private final boolean isSimple;
 	protected final String operation;
-	private final boolean copyDamage;
-	public static final Serializer SERIALIZER = new Serializer();
+	public static final RecipeSerializer<EARecipe> SERIALIZER = new Serializer();
 	public static final ResourceLocation NAME = ResourceLocation.fromNamespaceAndPath(Main.MODID, "crafting_shapeless");
 
 	public EARecipe(String groupIn, CraftingBookCategory catIn, ItemStack recipeOutputIn,
-			NonNullList<Ingredient> recipeItemsIn, String operationIn)
+			List<Ingredient> recipeItemsIn, String operationIn)
 	{
-		super(groupIn, catIn, recipeOutputIn, recipeItemsIn);
+		group = groupIn;
+		category = catIn;
+		result = recipeOutputIn;
+		ingredients = recipeItemsIn;
 		operation = operationIn;
-		boolean copyDamage = false;
-		if (recipeOutputIn.isDamageableItem())
-		{
-			for (Ingredient thing : recipeItemsIn)
-			{
-				for (ItemStack stack : thing.getItems())
-				{
-					if (stack.isDamageableItem() && stack.getMaxDamage() == recipeOutputIn.getMaxDamage())
-					{
-						copyDamage = true;
-						break;
-					}
-				}
-			}
-		}
-		this.copyDamage = copyDamage;
+		isSimple = ingredients.stream().allMatch(Ingredient::isSimple);
 	}
 
 	@Override
-	public RecipeSerializer<?> getSerializer()
+	public RecipeSerializer<EARecipe> getSerializer()
 	{
 		return SERIALIZER;
 	}
 
 	@Override
+	public String group() {
+		return group;
+	}
+
+	@Override
+	public CraftingBookCategory category() {
+		return category;
+	}
+
+	@Override
+	public PlacementInfo placementInfo() {
+		if (placementInfo == null) {
+			placementInfo = PlacementInfo.create(ingredients);
+		}
+
+		return placementInfo;
+	}
+
+	@Override
+	public boolean matches(CraftingInput inv, Level level) {
+		if (inv.ingredientCount() != ingredients.size()) {
+			return false;
+		} else if (inv.size() == 1 && ingredients.size() == 1) {
+			return ingredients.getFirst().test(inv.getItem(0));
+		} else if (!isSimple) {
+			return net.minecraftforge.common.util.RecipeMatcher.findMatches(inv.items(), ingredients) != null;
+		} else {
+			return inv.stackedContents().canCraft(this, null);
+		}
+	}
+
+	@Override
     public ItemStack assemble(CraftingInput inv, HolderLookup.Provider reg)
     {
-        ItemStack ret = this.getResultItem(reg).copy();
-        if (copyDamage)
+        ItemStack ret = result.copy();
+        if (ret.isDamageableItem())
         {
     	    for (int j = 0; j < inv.size(); ++j)
     	    {
@@ -133,30 +166,29 @@ public class EARecipe extends ShapelessRecipe
         return ret;
     }
 
+	@Override
+	public List<RecipeDisplay> display() {
+		return List.of(new ShapelessCraftingRecipeDisplay(ingredients.stream().map(Ingredient::display).toList(),
+				new SlotDisplay.ItemStackSlotDisplay(result),
+				new SlotDisplay.ItemSlotDisplay(Items.CRAFTING_TABLE)));
+	}
+
 	public static class Serializer implements RecipeSerializer<EARecipe>
 	{
 		private static final MapCodec<EARecipe> CODEC = RecordCodecBuilder.mapCodec(inst -> inst.group(
-				Codec.STRING.optionalFieldOf("group", "").forGetter(rec -> rec.getGroup()),
-				CraftingBookCategory.CODEC.fieldOf("category").orElse(CraftingBookCategory.MISC)
-						.forGetter(rec -> rec.category()),
-				ItemStack.STRICT_CODEC.fieldOf("result").forGetter(rec -> rec.getResultItem(RegistryAccess.EMPTY)),
-				Ingredient.CODEC_NONEMPTY.listOf().fieldOf("ingredients").flatXmap(list -> {
-					Ingredient[] aingredient = list.stream().filter(ingrid -> !ingrid.isEmpty())
-							.toArray(size -> new Ingredient[size]);
-					if (aingredient.length == 0) {
-						return DataResult.error(() -> {
-							return "No ingredients for ea shapeless recipe";
-						});
-					} else {
-						return aingredient.length > 3 * 3 ? DataResult.error(() -> {
-							return "Too many ingredients for ea shapeless recipe";
-						}) : DataResult.success(NonNullList.of(Ingredient.EMPTY, aingredient));
-					}
-				}, DataResult::success).forGetter(rec -> rec.getIngredients()),
+				Codec.STRING.optionalFieldOf("group", "").forGetter(rec -> rec.group()),
+				CraftingBookCategory.CODEC.fieldOf("category").orElse(CraftingBookCategory.MISC).forGetter(rec -> rec.category()),
+				ItemStack.STRICT_CODEC.fieldOf("result").forGetter(rec -> rec.result),
+				Ingredient.CODEC.listOf().fieldOf("ingredients").forGetter(rec -> rec.ingredients),
 				Codec.STRING.optionalFieldOf("operation", "").forGetter(rec -> rec.operation))
 				.apply(inst, EARecipe::new));
-		public static final StreamCodec<RegistryFriendlyByteBuf, EARecipe> STREAM_CODEC = StreamCodec
-				.of(EARecipe.Serializer::toNetwork, EARecipe.Serializer::fromNetwork);
+		public static final StreamCodec<RegistryFriendlyByteBuf, EARecipe> STREAM_CODEC = StreamCodec.composite(
+				ByteBufCodecs.STRING_UTF8, rec -> rec.group,
+				CraftingBookCategory.STREAM_CODEC, rec -> rec.category,
+				ItemStack.STREAM_CODEC, rec -> rec.result,
+				Ingredient.CONTENTS_STREAM_CODEC.apply(ByteBufCodecs.list()), rec -> rec.ingredients,
+				ByteBufCodecs.STRING_UTF8, rec -> rec.operation,
+				EARecipe::new);
 
 		@Override
 		public MapCodec<EARecipe> codec() {
@@ -166,33 +198,6 @@ public class EARecipe extends ShapelessRecipe
 		@Override
 		public StreamCodec<RegistryFriendlyByteBuf, EARecipe> streamCodec() {
 			return STREAM_CODEC;
-		}
-
-		private static EARecipe fromNetwork(RegistryFriendlyByteBuf buffer)
-		{
-			String group = buffer.readUtf();
-			CraftingBookCategory cat = buffer.readEnum(CraftingBookCategory.class);
-			int i = buffer.readVarInt();
-			NonNullList<Ingredient> nonnulllist = NonNullList.withSize(i, Ingredient.EMPTY);
-			nonnulllist.replaceAll(elem -> Ingredient.CONTENTS_STREAM_CODEC.decode(buffer));
-			ItemStack itemstack = ItemStack.STREAM_CODEC.decode(buffer);
-			String oper = buffer.readUtf();
-			return new EARecipe(group, cat, itemstack, nonnulllist, oper);
-		}
-
-		private static void toNetwork(RegistryFriendlyByteBuf buffer, EARecipe recipe)
-		{
-			buffer.writeUtf(recipe.getGroup());
-			buffer.writeEnum(recipe.category());
-			NonNullList<Ingredient> nonnulllist = recipe.getIngredients();
-			buffer.writeVarInt(nonnulllist.size());
-
-			for (Ingredient ingredient : nonnulllist) {
-                Ingredient.CONTENTS_STREAM_CODEC.encode(buffer, ingredient);
-			}
-
-			ItemStack.STREAM_CODEC.encode(buffer, recipe.getResultItem(RegistryAccess.EMPTY));
-			buffer.writeUtf(recipe.operation);
 		}
 	}
 }

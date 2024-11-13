@@ -23,9 +23,9 @@ public class Main
 {
     public static final String MODID = "ea"; 
 
-    public Main()
+    public Main(FMLJavaModLoadingContext context)
     {
-		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
+		context.getModEventBus().addListener(this::setup);
     }
 
 	public void setup(final FMLCommonSetupEvent event)

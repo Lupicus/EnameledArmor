@@ -1,24 +1,22 @@
 package com.lupicus.ea.item;
 
-import java.util.List;
+import java.util.function.Function;
 
 import com.lupicus.ea.Main;
 
-import net.minecraft.core.Holder;
-import net.minecraft.core.Registry;
 import net.minecraft.core.component.DataComponents;
-import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.ArmorItem;
-import net.minecraft.world.item.ArmorMaterial;
-import net.minecraft.world.item.ArmorMaterial.Layer;
-import net.minecraft.world.item.ArmorMaterials;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.SwordItem;
+import net.minecraft.world.item.ToolMaterial;
 import net.minecraft.world.item.Item.Properties;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.component.DyedItemColor;
-import net.minecraft.world.item.Tiers;
+import net.minecraft.world.item.equipment.ArmorMaterial;
+import net.minecraft.world.item.equipment.ArmorMaterials;
+import net.minecraft.world.item.equipment.ArmorType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.RegisterColorHandlersEvent;
@@ -28,56 +26,39 @@ import net.minecraftforge.registries.IForgeRegistry;
 public class ModItems
 {
 	// "ea" is not "ea_diamond" for backwards compatibility
-	private static final Holder<ArmorMaterial> DA_MATERIAL = register(ArmorMaterials.DIAMOND, "ea");
-	private static final int DA_MULT = 33;
-	public static final Item EA_HELMET = armorItem(DA_MATERIAL, ArmorItem.Type.HELMET, DA_MULT);
-	public static final Item EA_CHESTPLATE = armorItem(DA_MATERIAL, ArmorItem.Type.CHESTPLATE, DA_MULT);
-	public static final Item EA_LEGGINGS = armorItem(DA_MATERIAL, ArmorItem.Type.LEGGINGS, DA_MULT);
-	public static final Item EA_BOOTS = armorItem(DA_MATERIAL, ArmorItem.Type.BOOTS, DA_MULT);
+	private static final ArmorMaterial DA_MATERIAL = create(ArmorMaterials.DIAMOND, "ea");
+	public static final Item EA_HELMET = register("ea_helmet", p -> new EAArmorItem(DA_MATERIAL, ArmorType.HELMET, p), baseProps());
+	public static final Item EA_CHESTPLATE = register("ea_chestplate", p -> new EAArmorItem(DA_MATERIAL, ArmorType.CHESTPLATE, p), baseProps());
+	public static final Item EA_LEGGINGS = register("ea_leggings", p -> new EAArmorItem(DA_MATERIAL, ArmorType.LEGGINGS, p), baseProps());
+	public static final Item EA_BOOTS = register("ea_boots", p -> new EAArmorItem(DA_MATERIAL, ArmorType.BOOTS, p), baseProps());
 	// 	Swords have no color- just enchantment glint.
-	public static final Item EA_DIAMOND_SWORD = new EASwordItem(Tiers.DIAMOND, baseProps().attributes(SwordItem.createAttributes(Tiers.DIAMOND, 3, -2.4F)));
-	public static final Item EA_BOW = new EABowItem(baseProps().durability(384));
+	public static final Item EA_DIAMOND_SWORD = register("ea_diamond_sword", p -> new EASwordItem(ToolMaterial.DIAMOND, 3.0F, -2.4F, p), baseProps());
+	public static final Item EA_BOW = register("ea_bow", EABowItem::new, baseProps().durability(384));
 
-	private static final Holder<ArmorMaterial> CH_MATERIAL = register(ArmorMaterials.CHAIN, "ea_chainmail");
-	private static final int CH_MULT = 15;
-	public static final Item EA_CHAINMAIL_HELMET = armorItem(CH_MATERIAL, ArmorItem.Type.HELMET, CH_MULT);
-	public static final Item EA_CHAINMAIL_CHESTPLATE = armorItem(CH_MATERIAL, ArmorItem.Type.CHESTPLATE, CH_MULT);
-	public static final Item EA_CHAINMAIL_LEGGINGS = armorItem(CH_MATERIAL, ArmorItem.Type.LEGGINGS, CH_MULT);
-	public static final Item EA_CHAINMAIL_BOOTS = armorItem(CH_MATERIAL, ArmorItem.Type.BOOTS, CH_MULT);
+	private static final ArmorMaterial CH_MATERIAL = create(ArmorMaterials.CHAINMAIL, "ea_chainmail");
+	public static final Item EA_CHAINMAIL_HELMET = register("ea_chainmail_helmet", p -> new EAArmorItem(CH_MATERIAL, ArmorType.HELMET, p), baseProps());
+	public static final Item EA_CHAINMAIL_CHESTPLATE = register("ea_chainmail_chestplate", p -> new EAArmorItem(CH_MATERIAL, ArmorType.CHESTPLATE, p), baseProps());
+	public static final Item EA_CHAINMAIL_LEGGINGS = register("ea_chainmail_leggings", p -> new EAArmorItem(CH_MATERIAL, ArmorType.LEGGINGS, p), baseProps());
+	public static final Item EA_CHAINMAIL_BOOTS = register("ea_chainmail_boots", p -> new EAArmorItem(CH_MATERIAL, ArmorType.BOOTS, p), baseProps());
 
-	private static final Holder<ArmorMaterial> NT_MATERIAL = register(ArmorMaterials.NETHERITE, "ea_netherite");
-	private static final int NT_MULT = 37;
-	public static final Item EA_NETHERITE_HELMET = armorNTItem(NT_MATERIAL, ArmorItem.Type.HELMET, NT_MULT);
-	public static final Item EA_NETHERITE_CHESTPLATE = armorNTItem(NT_MATERIAL, ArmorItem.Type.CHESTPLATE, NT_MULT);
-	public static final Item EA_NETHERITE_LEGGINGS = armorNTItem(NT_MATERIAL, ArmorItem.Type.LEGGINGS, NT_MULT);
-	public static final Item EA_NETHERITE_BOOTS = armorNTItem(NT_MATERIAL, ArmorItem.Type.BOOTS, NT_MULT);
-	public static final Item EA_NETHERITE_SWORD = new EASwordItem(Tiers.NETHERITE, baseNTProps().attributes(SwordItem.createAttributes(Tiers.NETHERITE, 3, -2.4F)));
+	private static final ArmorMaterial NT_MATERIAL = create(ArmorMaterials.NETHERITE, "ea_netherite");
+	public static final Item EA_NETHERITE_HELMET = register("ea_netherite_helmet", p -> new EAArmorItem(NT_MATERIAL, ArmorType.HELMET, p), baseNTProps());
+	public static final Item EA_NETHERITE_CHESTPLATE = register("ea_netherite_chestplate", p -> new EAArmorItem(NT_MATERIAL, ArmorType.CHESTPLATE, p), baseNTProps());
+	public static final Item EA_NETHERITE_LEGGINGS = register("ea_netherite_leggings", p -> new EAArmorItem(NT_MATERIAL, ArmorType.LEGGINGS, p), baseNTProps());
+	public static final Item EA_NETHERITE_BOOTS = register("ea_netherite_boots", p -> new EAArmorItem(NT_MATERIAL, ArmorType.BOOTS, p), baseNTProps());
+	public static final Item EA_NETHERITE_SWORD = register("ea_netherite_sword", p -> new EASwordItem(ToolMaterial.NETHERITE, 3.0F, -2.4F, p), baseNTProps());
 
-	private static final Holder<ArmorMaterial> IR_MATERIAL = register(ArmorMaterials.IRON, "ea_iron");
-	private static final int IR_MULT = 15;
-	public static final Item EA_IRON_HELMET = armorItem(IR_MATERIAL, ArmorItem.Type.HELMET, IR_MULT);
-	public static final Item EA_IRON_CHESTPLATE = armorItem(IR_MATERIAL, ArmorItem.Type.CHESTPLATE, IR_MULT);
-	public static final Item EA_IRON_LEGGINGS = armorItem(IR_MATERIAL, ArmorItem.Type.LEGGINGS, IR_MULT);
-	public static final Item EA_IRON_BOOTS = armorItem(IR_MATERIAL, ArmorItem.Type.BOOTS, IR_MULT);
-	public static final Item EA_IRON_SWORD = new EASwordItem(Tiers.IRON, baseProps().attributes(SwordItem.createAttributes(Tiers.IRON, 3, -2.4F)));
+	private static final ArmorMaterial IR_MATERIAL = create(ArmorMaterials.IRON, "ea_iron");
+	public static final Item EA_IRON_HELMET = register("ea_iron_helmet", p -> new EAArmorItem(IR_MATERIAL, ArmorType.HELMET, p), baseProps());
+	public static final Item EA_IRON_CHESTPLATE = register("ea_iron_chestplate", p -> new EAArmorItem(IR_MATERIAL, ArmorType.CHESTPLATE, p), baseProps());
+	public static final Item EA_IRON_LEGGINGS = register("ea_iron_leggings", p -> new EAArmorItem(IR_MATERIAL, ArmorType.LEGGINGS, p), baseProps());
+	public static final Item EA_IRON_BOOTS = register("ea_iron_boots", p -> new EAArmorItem(IR_MATERIAL, ArmorType.BOOTS, p), baseProps());
+	public static final Item EA_IRON_SWORD = register("ea_iron_sword", p -> new EASwordItem(ToolMaterial.IRON, 3.0F, -2.4F, p), baseProps());
 
-	private static EAArmorItem armorItem(Holder<ArmorMaterial> material, ArmorItem.Type type, int mult)
+	private static ArmorMaterial create(ArmorMaterial copy, String name)
 	{
-		return new EAArmorItem(material, type, baseProps().durability(type.getDurability(mult)));
-	}
-
-	private static EAArmorItem armorNTItem(Holder<ArmorMaterial> material, ArmorItem.Type type, int mult)
-	{
-		return new EAArmorItem(material, type, baseNTProps().durability(type.getDurability(mult)));
-	}
-
-	private static Holder<ArmorMaterial> register(Holder<ArmorMaterial> hcopy, String name)
-	{
-		ArmorMaterial copy = hcopy.get();
-		ResourceLocation res = ResourceLocation.fromNamespaceAndPath(Main.MODID, name);
-		List<Layer> layers = List.of(new ArmorMaterial.Layer(res, "", true), new ArmorMaterial.Layer(res, "_overlay", false));
-		return Registry.registerForHolder(BuiltInRegistries.ARMOR_MATERIAL, res,
-				new ArmorMaterial(copy.defense(), copy.enchantmentValue(), copy.equipSound(), copy.repairIngredient(), layers, copy.toughness(), copy.knockbackResistance()));
+		ResourceLocation modelId = ResourceLocation.fromNamespaceAndPath(Main.MODID, name);
+		return new ArmorMaterial(copy.durability(), copy.defense(), copy.enchantmentValue(), copy.equipSound(), copy.toughness(), copy.knockbackResistance(), copy.repairIngredient(), modelId);
 	}
 
 	private static Properties baseProps()
@@ -92,29 +73,12 @@ public class ModItems
 
 	public static void register(IForgeRegistry<Item> forgeRegistry)
 	{
-		forgeRegistry.register("ea_helmet", EA_HELMET);
-		forgeRegistry.register("ea_chestplate", EA_CHESTPLATE);
-		forgeRegistry.register("ea_leggings", EA_LEGGINGS);
-		forgeRegistry.register("ea_boots", EA_BOOTS);
-		forgeRegistry.register("ea_diamond_sword", EA_DIAMOND_SWORD);
-		forgeRegistry.register("ea_bow", EA_BOW);
+	}
 
-		forgeRegistry.register("ea_iron_helmet", EA_IRON_HELMET);
-		forgeRegistry.register("ea_iron_chestplate", EA_IRON_CHESTPLATE);
-		forgeRegistry.register("ea_iron_leggings", EA_IRON_LEGGINGS);
-		forgeRegistry.register("ea_iron_boots", EA_IRON_BOOTS);
-		forgeRegistry.register("ea_iron_sword", EA_IRON_SWORD);
-
-		forgeRegistry.register("ea_netherite_helmet", EA_NETHERITE_HELMET);
-		forgeRegistry.register("ea_netherite_chestplate", EA_NETHERITE_CHESTPLATE);
-		forgeRegistry.register("ea_netherite_leggings", EA_NETHERITE_LEGGINGS);
-		forgeRegistry.register("ea_netherite_boots", EA_NETHERITE_BOOTS);
-		forgeRegistry.register("ea_netherite_sword", EA_NETHERITE_SWORD);
-
-		forgeRegistry.register("ea_chainmail_helmet", EA_CHAINMAIL_HELMET);
-		forgeRegistry.register("ea_chainmail_chestplate", EA_CHAINMAIL_CHESTPLATE);
-		forgeRegistry.register("ea_chainmail_leggings", EA_CHAINMAIL_LEGGINGS);
-		forgeRegistry.register("ea_chainmail_boots", EA_CHAINMAIL_BOOTS);
+	private static Item register(String name, Function<Properties, Item> func, Properties prop)
+	{
+		ResourceKey<Item> key = ResourceKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath(Main.MODID, name));
+		return Items.registerItem(key, func, prop);
 	}
 
 	public static void setupTabs(BuildCreativeModeTabContentsEvent event)

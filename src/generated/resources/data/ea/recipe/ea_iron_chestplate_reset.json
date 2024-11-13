@@ -2,9 +2,7 @@
   "type": "ea:crafting_shapeless",
   "category": "equipment",
   "ingredients": [
-    {
-      "item": "ea:ea_iron_chestplate"
-    }
+    "ea:ea_iron_chestplate"
   ],
   "operation": "reset_color",
   "result": {

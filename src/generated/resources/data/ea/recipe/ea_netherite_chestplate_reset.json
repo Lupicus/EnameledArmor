@@ -2,9 +2,7 @@
   "type": "ea:crafting_shapeless",
   "category": "equipment",
   "ingredients": [
-    {
-      "item": "ea:ea_netherite_chestplate"
-    }
+    "ea:ea_netherite_chestplate"
   ],
   "operation": "reset_color",
   "result": {

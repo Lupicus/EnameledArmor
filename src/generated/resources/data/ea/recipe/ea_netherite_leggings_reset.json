@@ -2,9 +2,7 @@
   "type": "ea:crafting_shapeless",
   "category": "equipment",
   "ingredients": [
-    {
-      "item": "ea:ea_netherite_leggings"
-    }
+    "ea:ea_netherite_leggings"
   ],
   "operation": "reset_color",
   "result": {

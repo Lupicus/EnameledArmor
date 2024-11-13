@@ -1,12 +1,12 @@
 package com.lupicus.ea.item;
 
 import net.minecraft.world.item.SwordItem;
-import net.minecraft.world.item.Tier;
+import net.minecraft.world.item.ToolMaterial;
 
 public class EASwordItem extends SwordItem implements IGuiRightClick
 {
-	public EASwordItem(Tier tier, Properties prop)
+	public EASwordItem(ToolMaterial mat, float dmg, float spd, Properties prop)
 	{
-		super(tier, prop);
+		super(mat, dmg, spd, prop);
 	}
 }

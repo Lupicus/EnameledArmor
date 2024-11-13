@@ -2,12 +2,8 @@
   "type": "ea:crafting_shapeless",
   "category": "equipment",
   "ingredients": [
-    {
-      "item": "minecraft:chainmail_helmet"
-    },
-    {
-      "item": "minecraft:clay_ball"
-    }
+    "minecraft:chainmail_helmet",
+    "minecraft:clay_ball"
   ],
   "result": {
     "count": 1,

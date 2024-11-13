@@ -11,8 +11,13 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.gui.screens.inventory.CreativeModeInventoryScreen.ItemPickerMenu;
+import net.minecraft.world.Container;
+import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.AbstractFurnaceMenu;
+import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.inventory.RecipeBookMenu;
+import net.minecraft.world.inventory.ResultContainer;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
@@ -57,10 +62,13 @@ public class ClientEvents
 				}
 				else
 					index = slot.index;
-				if (cont instanceof RecipeBookMenu<?, ?>)
+				if (cont instanceof RecipeBookMenu)
 				{
 					// skip if in the crafting section
-					if (index < ((RecipeBookMenu<?, ?>) cont).getSize())
+					Container slotCont = slot.container;
+					if (slotCont instanceof CraftingContainer || slotCont instanceof ResultContainer)
+						return;
+					if (cont instanceof AbstractFurnaceMenu && slotCont instanceof SimpleContainer)
 						return;
 				}
 				if (index >= 0)

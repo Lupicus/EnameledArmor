@@ -2,9 +2,7 @@
   "type": "ea:crafting_shapeless",
   "category": "equipment",
   "ingredients": [
-    {
-      "item": "ea:ea_chainmail_chestplate"
-    }
+    "ea:ea_chainmail_chestplate"
   ],
   "operation": "reset_color",
   "result": {

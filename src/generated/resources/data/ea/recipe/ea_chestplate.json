@@ -2,12 +2,8 @@
   "type": "ea:crafting_shapeless",
   "category": "equipment",
   "ingredients": [
-    {
-      "item": "minecraft:diamond_chestplate"
-    },
-    {
-      "item": "minecraft:clay_ball"
-    }
+    "minecraft:diamond_chestplate",
+    "minecraft:clay_ball"
   ],
   "result": {
     "count": 1,

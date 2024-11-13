@@ -2,15 +2,9 @@
   "type": "ea:crafting_shapeless",
   "category": "equipment",
   "ingredients": [
-    {
-      "item": "ea:ea_netherite_leggings"
-    },
-    {
-      "tag": "forge:mushrooms"
-    },
-    {
-      "tag": "ea:true_dyes"
-    }
+    "ea:ea_netherite_leggings",
+    "#forge:mushrooms",
+    "#ea:true_dyes"
   ],
   "operation": "set_color",
   "result": {

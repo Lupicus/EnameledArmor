@@ -8,13 +8,14 @@ import com.lupicus.ea.Main;
 import com.lupicus.ea.item.EAArmorItem;
 import com.lupicus.ea.item.ModItems;
 
-import net.minecraft.core.Holder;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.models.ItemModelGenerators;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.ArmorMaterial;
-import net.minecraft.world.item.ArmorMaterials;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.equipment.EquipmentModels;
+import net.minecraft.world.item.equipment.Equippable;
 import net.minecraftforge.client.model.generators.ItemModelBuilder;
 import net.minecraftforge.client.model.generators.ItemModelBuilder.OverrideBuilder;
 import net.minecraftforge.client.model.generators.ItemModelProvider;
@@ -27,13 +28,13 @@ public class EAModelProvider extends ItemModelProvider
 {
 	private static final List<TrimModelData> GENERATED_TRIM_MODELS = List.of(
 			new TrimModelData("quartz", 0.1F, Map.of()),
-			new TrimModelData("iron", 0.2F, Map.of(ArmorMaterials.IRON, "iron_darker")),
-			new TrimModelData("netherite", 0.3F, Map.of(ArmorMaterials.NETHERITE, "netherite_darker")),
+			new TrimModelData("iron", 0.2F, Map.of(EquipmentModels.IRON, "iron_darker")),
+			new TrimModelData("netherite", 0.3F, Map.of(EquipmentModels.NETHERITE, "netherite_darker")),
 			new TrimModelData("redstone", 0.4F, Map.of()),
 			new TrimModelData("copper", 0.5F, Map.of()),
-			new TrimModelData("gold", 0.6F, Map.of(ArmorMaterials.GOLD, "gold_darker")),
+			new TrimModelData("gold", 0.6F, Map.of(EquipmentModels.GOLD, "gold_darker")),
 			new TrimModelData("emerald", 0.7F, Map.of()),
-			new TrimModelData("diamond", 0.8F, Map.of(ArmorMaterials.DIAMOND, "diamond_darker")),
+			new TrimModelData("diamond", 0.8F, Map.of(EquipmentModels.DIAMOND, "diamond_darker")),
 			new TrimModelData("lapis", 0.9F, Map.of()),
 			new TrimModelData("amethyst", 1.0F, Map.of()));
 	private Field fTextures = null;
@@ -77,32 +78,44 @@ public class EAModelProvider extends ItemModelProvider
 		{
 			EAArmorItem armor = (EAArmorItem) item;
 			ResourceLocation key = ForgeRegistries.ITEMS.getKey(armor);
-			makeTrims(armor, key);
 			ItemModelBuilder b = getBuilder(key.getPath());
 			basic(b, key);
-			// overrides
-			for (TrimModelData trim : GENERATED_TRIM_MODELS)
-			{
-				OverrideBuilder ob = b.override();
-				ob.model(getTrimBuilder(armor, key, trim));
-				ob.predicate(ItemModelGenerators.TRIM_TYPE_PREDICATE_ID, trim.itemModelIndex());
-			}
+			makeTrims(b, key, armor);
 		}
 	}
 
-	private ItemModelBuilder getTrimBuilder(EAArmorItem armor, ResourceLocation key, TrimModelData trim)
+	private void makeTrims(ItemModelBuilder builder, ResourceLocation key, EAArmorItem armor)
 	{
-		return getBuilder(key.getPath() + "_" + trim.name(armor.getMaterial()) + "_trim");
-	}
+		Equippable equippable = armor.components().get(DataComponents.EQUIPPABLE);
+		if (equippable != null && equippable.slot().getType() == EquipmentSlot.Type.HUMANOID_ARMOR && equippable.model().isPresent()) {
+			ResourceLocation resourcelocation = equippable.model().get();
 
-	private void makeTrims(EAArmorItem armor, ResourceLocation key)
-	{
-		for (TrimModelData trim : GENERATED_TRIM_MODELS)
-		{
-			ItemModelBuilder b = getTrimBuilder(armor, key, trim);
-			basic(b, key);
-			Map<String, String> textures = getTextures(b);
-			textures.put("layer2", "minecraft:trims/items/" + armor.getType().getName() + "_trim_" + trim.name(armor.getMaterial()));
+//			Map<ResourceLocation, EquipmentModel> map = new HashMap<>();
+//			EquipmentModels.bootstrap(map::put);
+//			EquipmentModel equipmentmodel = map.get(resourcelocation);
+//			if (equipmentmodel == null) {
+//				throw new IllegalStateException("Referenced equipment model does not exist: " + resourcelocation);
+//			}
+
+			for (TrimModelData trim : GENERATED_TRIM_MODELS)
+			{
+				String s2 = trim.name(resourcelocation);
+				ItemModelBuilder b = getBuilder(key.getPath() + "_" + s2 + "_trim");
+				basic(b, key);
+				Map<String, String> textures = getTextures(b);
+				String s = switch (equippable.slot()) {
+				case HEAD -> "helmet";
+				case CHEST -> "chestplate";
+				case LEGS -> "leggings";
+				case FEET -> "boots";
+				default -> throw new UnsupportedOperationException();
+				};
+				textures.put("layer2", "minecraft:trims/items/" + s + "_trim_" + s2);
+				// overrides
+				OverrideBuilder ob = builder.override();
+				ob.model(b);
+				ob.predicate(ItemModelGenerators.TRIM_TYPE_PREDICATE_ID, trim.itemModelIndex());
+			}
 		}
 	}
 
@@ -127,8 +140,8 @@ public class EAModelProvider extends ItemModelProvider
 		return ret;
 	}
 
-	static record TrimModelData(String name, float itemModelIndex, Map<Holder<ArmorMaterial>, String> overrideArmorMaterials) {
-		public String name(Holder<ArmorMaterial> mat) {
+	static record TrimModelData(String name, float itemModelIndex, Map<ResourceLocation, String> overrideArmorMaterials) {
+		public String name(ResourceLocation mat) {
 			return this.overrideArmorMaterials.getOrDefault(mat, this.name);
 		}
 	}

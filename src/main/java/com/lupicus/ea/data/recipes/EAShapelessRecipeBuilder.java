@@ -12,20 +12,25 @@ import net.minecraft.advancements.AdvancementRequirements;
 import net.minecraft.advancements.AdvancementRewards;
 import net.minecraft.advancements.Criterion;
 import net.minecraft.advancements.critereon.RecipeUnlockedTrigger;
+import net.minecraft.core.HolderGetter;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.data.recipes.RecipeBuilder;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.level.ItemLike;
 
 public class EAShapelessRecipeBuilder implements RecipeBuilder
 {
+	private final HolderGetter<Item> items;
 	private final RecipeCategory category;
 	private final Item result;
 	private final int count;
@@ -36,7 +41,8 @@ public class EAShapelessRecipeBuilder implements RecipeBuilder
 	private String namespace;
 	private String suffix;
 
-	public EAShapelessRecipeBuilder(RecipeCategory category, ItemLike item, int count) {
+	public EAShapelessRecipeBuilder(HolderGetter<Item> items, RecipeCategory category, ItemLike item, int count) {
+		this.items = items;
 		this.category = category;
 		this.result = item.asItem();
 		this.count = count;
@@ -44,12 +50,12 @@ public class EAShapelessRecipeBuilder implements RecipeBuilder
 		operation = "";
 	}
 
-	public static EAShapelessRecipeBuilder shapeless(RecipeCategory category, ItemLike item) {
-		return new EAShapelessRecipeBuilder(category, item, 1);
+	public static EAShapelessRecipeBuilder shapeless(HolderGetter<Item> items, RecipeCategory category, ItemLike item) {
+		return new EAShapelessRecipeBuilder(items, category, item, 1);
 	}
 
 	public EAShapelessRecipeBuilder requires(TagKey<Item> tag) {
-		return requires(Ingredient.of(tag));
+		return requires(Ingredient.of(items.getOrThrow(tag)));
 	}
 
 	public EAShapelessRecipeBuilder requires(ItemLike item) {
@@ -123,7 +129,7 @@ public class EAShapelessRecipeBuilder implements RecipeBuilder
 		if (namespace != null || suffix != null)
 			save(consumer, resLoc.toString());
 		else
-			save(consumer, resLoc);
+			save(consumer, ResourceKey.create(Registries.RECIPE, resLoc));
 	}
 
 	@Override
@@ -146,25 +152,25 @@ public class EAShapelessRecipeBuilder implements RecipeBuilder
 		if (resLoc.equals(iLoc)) {
 			throw new IllegalStateException("Shapeless Recipe " + resName + " should remove its 'save' argument");
 		} else {
-			save(consumer, resLoc);
+			save(consumer, ResourceKey.create(Registries.RECIPE, resLoc));
 		}
 	}
 
 	@Override
-	public void save(RecipeOutput consumer, ResourceLocation resLoc) {
+	public void save(RecipeOutput consumer, ResourceKey<Recipe<?>> resKey) {
 //		ensureValid(resLoc);
 		AdvancementHolder advHolder = null;
 		if (!criteria.isEmpty())
 		{
 			Builder adv = consumer.advancement()
-					.addCriterion("has_the_recipe", RecipeUnlockedTrigger.unlocked(resLoc))
-					.rewards(AdvancementRewards.Builder.recipe(resLoc))
+					.addCriterion("has_the_recipe", RecipeUnlockedTrigger.unlocked(resKey))
+					.rewards(AdvancementRewards.Builder.recipe(resKey))
 					.requirements(AdvancementRequirements.Strategy.OR);
 			criteria.forEach(adv::addCriterion);
-			advHolder = adv.build(resLoc.withPrefix("recipes/" + category.getFolderName() + "/"));
+			advHolder = adv.build(resKey.location().withPrefix("recipes/" + category.getFolderName() + "/"));
 		}
 		EARecipe recipe = new EARecipe(group, RecipeBuilder.determineBookCategory(category), new ItemStack(result, count), ingredients, operation);
-		consumer.accept(resLoc, recipe, advHolder);
+		consumer.accept(resKey, recipe, advHolder);
 	}
 
 //	private void ensureValid(ResourceLocation resLoc) {
