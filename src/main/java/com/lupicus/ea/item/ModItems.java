@@ -13,13 +13,11 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ToolMaterial;
 import net.minecraft.world.item.Item.Properties;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.component.DyedItemColor;
 import net.minecraft.world.item.equipment.ArmorMaterial;
 import net.minecraft.world.item.equipment.ArmorMaterials;
 import net.minecraft.world.item.equipment.ArmorType;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.event.RegisterColorHandlersEvent;
+import net.minecraft.world.item.equipment.EquipmentAsset;
+import net.minecraft.world.item.equipment.EquipmentAssets;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.registries.IForgeRegistry;
 
@@ -58,7 +56,8 @@ public class ModItems
 	private static ArmorMaterial create(ArmorMaterial copy, String name)
 	{
 		ResourceLocation modelId = ResourceLocation.fromNamespaceAndPath(Main.MODID, name);
-		return new ArmorMaterial(copy.durability(), copy.defense(), copy.enchantmentValue(), copy.equipSound(), copy.toughness(), copy.knockbackResistance(), copy.repairIngredient(), modelId);
+		ResourceKey<EquipmentAsset> assetId = ResourceKey.create(EquipmentAssets.ROOT_ID, modelId);
+		return new ArmorMaterial(copy.durability(), copy.defense(), copy.enchantmentValue(), copy.equipSound(), copy.toughness(), copy.knockbackResistance(), copy.repairIngredient(), assetId);
 	}
 
 	private static Properties baseProps()
@@ -106,16 +105,5 @@ public class ModItems
 			event.accept(EA_NETHERITE_SWORD);
 			event.accept(EA_BOW);
 		}
-	}
-
-	@OnlyIn(Dist.CLIENT)
-	public static void register(RegisterColorHandlersEvent.Item event)
-	{
-		event.register((itemstack, index) -> {
-			return index > 0 ? -1 : DyedItemColor.getOrDefault(itemstack, EAArmorItem.DEFCOLOR);
-		}, EA_HELMET, EA_CHESTPLATE, EA_LEGGINGS, EA_BOOTS,
-		   EA_IRON_HELMET, EA_IRON_CHESTPLATE, EA_IRON_LEGGINGS, EA_IRON_BOOTS,
-		   EA_NETHERITE_HELMET, EA_NETHERITE_CHESTPLATE, EA_NETHERITE_LEGGINGS, EA_NETHERITE_BOOTS,
-		   EA_CHAINMAIL_HELMET, EA_CHAINMAIL_CHESTPLATE, EA_CHAINMAIL_LEGGINGS, EA_CHAINMAIL_BOOTS);
 	}
 }
