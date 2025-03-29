@@ -25,33 +25,33 @@ public class ModItems
 {
 	// "ea" is not "ea_diamond" for backwards compatibility
 	private static final ArmorMaterial DA_MATERIAL = create(ArmorMaterials.DIAMOND, "ea");
-	public static final Item EA_HELMET = register("ea_helmet", p -> new EAArmorItem(DA_MATERIAL, ArmorType.HELMET, p), baseProps());
-	public static final Item EA_CHESTPLATE = register("ea_chestplate", p -> new EAArmorItem(DA_MATERIAL, ArmorType.CHESTPLATE, p), baseProps());
-	public static final Item EA_LEGGINGS = register("ea_leggings", p -> new EAArmorItem(DA_MATERIAL, ArmorType.LEGGINGS, p), baseProps());
-	public static final Item EA_BOOTS = register("ea_boots", p -> new EAArmorItem(DA_MATERIAL, ArmorType.BOOTS, p), baseProps());
+	public static final Item EA_HELMET = register("ea_helmet", EAArmorItem::new, baseProps().humanoidArmor(DA_MATERIAL, ArmorType.HELMET));
+	public static final Item EA_CHESTPLATE = register("ea_chestplate", EAArmorItem::new, baseProps().humanoidArmor(DA_MATERIAL, ArmorType.CHESTPLATE));
+	public static final Item EA_LEGGINGS = register("ea_leggings", EAArmorItem::new, baseProps().humanoidArmor(DA_MATERIAL, ArmorType.LEGGINGS));
+	public static final Item EA_BOOTS = register("ea_boots", EAArmorItem::new, baseProps().humanoidArmor(DA_MATERIAL, ArmorType.BOOTS));
 	// 	Swords have no color- just enchantment glint.
-	public static final Item EA_DIAMOND_SWORD = register("ea_diamond_sword", p -> new EASwordItem(ToolMaterial.DIAMOND, 3.0F, -2.4F, p), baseProps());
+	public static final Item EA_DIAMOND_SWORD = register("ea_diamond_sword", EASwordItem::new, baseProps().sword(ToolMaterial.DIAMOND, 3.0F, -2.4F));
 	public static final Item EA_BOW = register("ea_bow", EABowItem::new, baseProps().durability(384));
 
 	private static final ArmorMaterial CH_MATERIAL = create(ArmorMaterials.CHAINMAIL, "ea_chainmail");
-	public static final Item EA_CHAINMAIL_HELMET = register("ea_chainmail_helmet", p -> new EAArmorItem(CH_MATERIAL, ArmorType.HELMET, p), baseProps());
-	public static final Item EA_CHAINMAIL_CHESTPLATE = register("ea_chainmail_chestplate", p -> new EAArmorItem(CH_MATERIAL, ArmorType.CHESTPLATE, p), baseProps());
-	public static final Item EA_CHAINMAIL_LEGGINGS = register("ea_chainmail_leggings", p -> new EAArmorItem(CH_MATERIAL, ArmorType.LEGGINGS, p), baseProps());
-	public static final Item EA_CHAINMAIL_BOOTS = register("ea_chainmail_boots", p -> new EAArmorItem(CH_MATERIAL, ArmorType.BOOTS, p), baseProps());
+	public static final Item EA_CHAINMAIL_HELMET = register("ea_chainmail_helmet", EAArmorItem::new, baseProps().humanoidArmor(CH_MATERIAL, ArmorType.HELMET));
+	public static final Item EA_CHAINMAIL_CHESTPLATE = register("ea_chainmail_chestplate", EAArmorItem::new, baseProps().humanoidArmor(CH_MATERIAL, ArmorType.CHESTPLATE));
+	public static final Item EA_CHAINMAIL_LEGGINGS = register("ea_chainmail_leggings", EAArmorItem::new, baseProps().humanoidArmor(CH_MATERIAL, ArmorType.LEGGINGS));
+	public static final Item EA_CHAINMAIL_BOOTS = register("ea_chainmail_boots", EAArmorItem::new, baseProps().humanoidArmor(CH_MATERIAL, ArmorType.BOOTS));
 
 	private static final ArmorMaterial NT_MATERIAL = create(ArmorMaterials.NETHERITE, "ea_netherite");
-	public static final Item EA_NETHERITE_HELMET = register("ea_netherite_helmet", p -> new EAArmorItem(NT_MATERIAL, ArmorType.HELMET, p), baseNTProps());
-	public static final Item EA_NETHERITE_CHESTPLATE = register("ea_netherite_chestplate", p -> new EAArmorItem(NT_MATERIAL, ArmorType.CHESTPLATE, p), baseNTProps());
-	public static final Item EA_NETHERITE_LEGGINGS = register("ea_netherite_leggings", p -> new EAArmorItem(NT_MATERIAL, ArmorType.LEGGINGS, p), baseNTProps());
-	public static final Item EA_NETHERITE_BOOTS = register("ea_netherite_boots", p -> new EAArmorItem(NT_MATERIAL, ArmorType.BOOTS, p), baseNTProps());
-	public static final Item EA_NETHERITE_SWORD = register("ea_netherite_sword", p -> new EASwordItem(ToolMaterial.NETHERITE, 3.0F, -2.4F, p), baseNTProps());
+	public static final Item EA_NETHERITE_HELMET = register("ea_netherite_helmet", EAArmorItem::new, baseNTProps().humanoidArmor(NT_MATERIAL, ArmorType.HELMET));
+	public static final Item EA_NETHERITE_CHESTPLATE = register("ea_netherite_chestplate", EAArmorItem::new, baseNTProps().humanoidArmor(NT_MATERIAL, ArmorType.CHESTPLATE));
+	public static final Item EA_NETHERITE_LEGGINGS = register("ea_netherite_leggings", EAArmorItem::new, baseNTProps().humanoidArmor(NT_MATERIAL, ArmorType.LEGGINGS));
+	public static final Item EA_NETHERITE_BOOTS = register("ea_netherite_boots", EAArmorItem::new, baseNTProps().humanoidArmor(NT_MATERIAL, ArmorType.BOOTS));
+	public static final Item EA_NETHERITE_SWORD = register("ea_netherite_sword", EASwordItem::new, baseNTProps().sword(ToolMaterial.NETHERITE, 3.0F, -2.4F));
 
 	private static final ArmorMaterial IR_MATERIAL = create(ArmorMaterials.IRON, "ea_iron");
-	public static final Item EA_IRON_HELMET = register("ea_iron_helmet", p -> new EAArmorItem(IR_MATERIAL, ArmorType.HELMET, p), baseProps());
-	public static final Item EA_IRON_CHESTPLATE = register("ea_iron_chestplate", p -> new EAArmorItem(IR_MATERIAL, ArmorType.CHESTPLATE, p), baseProps());
-	public static final Item EA_IRON_LEGGINGS = register("ea_iron_leggings", p -> new EAArmorItem(IR_MATERIAL, ArmorType.LEGGINGS, p), baseProps());
-	public static final Item EA_IRON_BOOTS = register("ea_iron_boots", p -> new EAArmorItem(IR_MATERIAL, ArmorType.BOOTS, p), baseProps());
-	public static final Item EA_IRON_SWORD = register("ea_iron_sword", p -> new EASwordItem(ToolMaterial.IRON, 3.0F, -2.4F, p), baseProps());
+	public static final Item EA_IRON_HELMET = register("ea_iron_helmet", EAArmorItem::new, baseProps().humanoidArmor(IR_MATERIAL, ArmorType.HELMET));
+	public static final Item EA_IRON_CHESTPLATE = register("ea_iron_chestplate", EAArmorItem::new, baseProps().humanoidArmor(IR_MATERIAL, ArmorType.CHESTPLATE));
+	public static final Item EA_IRON_LEGGINGS = register("ea_iron_leggings", EAArmorItem::new, baseProps().humanoidArmor(IR_MATERIAL, ArmorType.LEGGINGS));
+	public static final Item EA_IRON_BOOTS = register("ea_iron_boots", EAArmorItem::new, baseProps().humanoidArmor(IR_MATERIAL, ArmorType.BOOTS));
+	public static final Item EA_IRON_SWORD = register("ea_iron_sword", EASwordItem::new, baseProps().sword(ToolMaterial.IRON, 3.0F, -2.4F));
 
 	private static ArmorMaterial create(ArmorMaterial copy, String name)
 	{

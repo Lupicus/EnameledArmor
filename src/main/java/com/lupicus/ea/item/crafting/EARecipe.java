@@ -153,7 +153,7 @@ public class EARecipe implements CraftingRecipe
     	    }
     	    if (color >= 0)
     	    {
-                ret.set(DataComponents.DYED_COLOR, new DyedItemColor(color, true));
+                ret.set(DataComponents.DYED_COLOR, new DyedItemColor(color));
     	    }
     	    else
     	    	ret = ItemStack.EMPTY;

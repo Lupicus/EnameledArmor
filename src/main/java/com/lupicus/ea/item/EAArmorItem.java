@@ -1,15 +1,13 @@
 package com.lupicus.ea.item;
 
-import net.minecraft.world.item.ArmorItem;
-import net.minecraft.world.item.equipment.ArmorMaterial;
-import net.minecraft.world.item.equipment.ArmorType;
+import net.minecraft.world.item.Item;
 
-public class EAArmorItem extends ArmorItem implements IGuiRightClick
+public class EAArmorItem extends Item implements IGuiRightClick
 {
 	public static final int DEFCOLOR = 0xFFCAC8C8;
 
-	public EAArmorItem(ArmorMaterial material, ArmorType type, Properties prop)
+	public EAArmorItem(Properties prop)
 	{
-		super(material, type, prop);
+		super(prop);
 	}
 }

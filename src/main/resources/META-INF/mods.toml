@@ -1,5 +1,5 @@
 modLoader="javafml"
-loaderVersion="[54,)"
+loaderVersion="[55,)"
 license="MIT License"
 [[mods]]
 modId="ea"
@@ -13,12 +13,12 @@ description='''Enameled Armor Mod.'''
 [[dependencies.ea]]
     modId="forge"
     mandatory=true
-    versionRange="[54,)"
+    versionRange="[55,)"
     ordering="NONE"
     side="BOTH"
 [[dependencies.ea]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.21.4,1.22)"
+    versionRange="[1.21.5,1.22)"
     ordering="NONE"
     side="BOTH"
