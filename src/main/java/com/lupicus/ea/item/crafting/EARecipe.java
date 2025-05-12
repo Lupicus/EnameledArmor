@@ -2,7 +2,7 @@ package com.lupicus.ea.item.crafting;
 
 import java.util.List;
 
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 
 import com.lupicus.ea.Main;
 import com.mojang.serialization.Codec;
@@ -39,7 +39,6 @@ public class EARecipe implements CraftingRecipe
 	final List<Ingredient> ingredients;
 	@Nullable
 	private PlacementInfo placementInfo;
-	private final boolean isSimple;
 	protected final String operation;
 	public static final RecipeSerializer<EARecipe> SERIALIZER = new Serializer();
 	public static final ResourceLocation NAME = ResourceLocation.fromNamespaceAndPath(Main.MODID, "crafting_shapeless");
@@ -52,7 +51,6 @@ public class EARecipe implements CraftingRecipe
 		result = recipeOutputIn;
 		ingredients = recipeItemsIn;
 		operation = operationIn;
-		isSimple = ingredients.stream().allMatch(Ingredient::isSimple);
 	}
 
 	@Override
@@ -86,8 +84,6 @@ public class EARecipe implements CraftingRecipe
 			return false;
 		} else if (inv.size() == 1 && ingredients.size() == 1) {
 			return ingredients.getFirst().test(inv.getItem(0));
-		} else if (!isSimple) {
-			return net.minecraftforge.common.util.RecipeMatcher.findMatches(inv.items(), ingredients) != null;
 		} else {
 			return inv.stackedContents().canCraft(this, null);
 		}

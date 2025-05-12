@@ -1,48 +1,24 @@
 package com.lupicus.ea.data;
 
-import java.util.ArrayList;
-import java.util.stream.Stream;
-
+import net.fabricmc.fabric.api.client.datagen.v1.provider.FabricModelProvider;
+import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.minecraft.client.data.models.BlockModelGenerators;
 import net.minecraft.client.data.models.ItemModelGenerators;
-import net.minecraft.client.data.models.ModelProvider;
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.data.PackOutput;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.level.block.Block;
-import net.minecraftforge.common.data.ExistingFileHelper;
 
-public class EAModelProvider extends ModelProvider
+public class EAModelProvider extends FabricModelProvider
 {
-	public EAModelProvider(PackOutput output, ExistingFileHelper existingFileHelper)
+	public EAModelProvider(FabricDataOutput output)
 	{
 		super(output);
 	}
 
 	@Override
-	protected Stream<Block> getKnownBlocks()
-	{
-		return new ArrayList<Block>().stream();
+	public void generateBlockStateModels(BlockModelGenerators blockStateModelGenerator) {
 	}
 
 	@Override
-	@SuppressWarnings("deprecation")
-	protected Stream<Item> getKnownItems()
-	{
-		return BuiltInRegistries.ITEM.stream()
-				.filter(item -> "ea".equals(item.builtInRegistryHolder().key().location().getNamespace()));
-	}
-
-	@Override
-	protected BlockModelGenerators getBlockModelGenerators(BlockStateGeneratorCollector blocks, ItemInfoCollector items,
-			SimpleModelCollector models)
-	{
-		return new EABlockGenerators(blocks, items, models);
-	}
-
-	@Override
-	protected ItemModelGenerators getItemModelGenerators(ItemInfoCollector items, SimpleModelCollector models)
-	{
-		return new EAItemGenerators(items, models);
+	public void generateItemModels(ItemModelGenerators itemModelGenerator) {
+		EAItemGenerators inst = new EAItemGenerators(itemModelGenerator);
+		inst.run();
 	}
 }

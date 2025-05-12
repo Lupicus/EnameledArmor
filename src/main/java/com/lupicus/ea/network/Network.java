@@ -1,43 +1,22 @@
 package com.lupicus.ea.network;
 
-import java.util.function.BiConsumer;
-import java.util.function.Function;
-
-import com.lupicus.ea.Main;
-
-import net.minecraft.client.Minecraft;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.event.network.CustomPayloadEvent.Context;
-import net.minecraftforge.network.ChannelBuilder;
-import net.minecraftforge.network.SimpleChannel;
 
 public class Network
 {
-	public static final SimpleChannel INSTANCE = ChannelBuilder.named(ResourceLocation.fromNamespaceAndPath(Main.MODID, "main"))
-			.networkProtocolVersion(1)
-			.simpleChannel();
-	private static int id = 0;
-
-	public static <MSG> void registerMessage(Class<MSG> msg,
-			BiConsumer<MSG, FriendlyByteBuf> encoder,
-			Function<FriendlyByteBuf, MSG> decoder,
-			BiConsumer<MSG, Context> handler)
+	@Environment(EnvType.CLIENT)
+	public static void sendToServer(CustomPacketPayload msg)
 	{
-		INSTANCE.messageBuilder(msg, id++).encoder(encoder).decoder(decoder).consumerNetworkThread(handler).add();
+		ClientPlayNetworking.send(msg);
 	}
 
-	@OnlyIn(Dist.CLIENT)
-	public static <MSG> void sendToServer(MSG msg)
+	public static void sendToClient(CustomPacketPayload msg, ServerPlayer player)
 	{
-		INSTANCE.send(msg, Minecraft.getInstance().getConnection().getConnection());
-	}
-
-	public static <MSG> void sendToClient(MSG msg, ServerPlayer player)
-	{
-		INSTANCE.send(msg, player.connection.getConnection());
+		ServerPlayNetworking.send(player, msg);
 	}
 }

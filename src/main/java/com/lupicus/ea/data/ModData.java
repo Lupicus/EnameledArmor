@@ -1,21 +1,16 @@
 package com.lupicus.ea.data;
 
-import com.lupicus.ea.Main;
+import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
+import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
+import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator.Pack;
 
-import net.minecraft.data.DataGenerator;
-import net.minecraftforge.data.event.GatherDataEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
-
-@Mod.EventBusSubscriber(modid = Main.MODID, bus = Bus.MOD)
-public class ModData
+public class ModData implements DataGeneratorEntrypoint
 {
-	@SubscribeEvent
-	public static void onData(GatherDataEvent event)
+	@Override
+	public void onInitializeDataGenerator(FabricDataGenerator dg)
 	{
-		DataGenerator dg = event.getGenerator();
-		dg.addProvider(event.includeClient(), new EAModelProvider(dg.getPackOutput(), event.getExistingFileHelper()));
-		dg.addProvider(event.includeServer(), new EARecipeProvider.Runner(dg.getPackOutput(), event.getLookupProvider()));
+		Pack pack = dg.createPack();
+		pack.addProvider(EAModelProvider::new);
+		pack.addProvider(EARecipeProvider.Runner::new);
 	}
 }

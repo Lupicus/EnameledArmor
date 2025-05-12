@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 1,
+  "id": "ea",
+  "version": "${version}",
+
+  "name": "EnameledArmor",
+  "description": "Enameled Armor Mod",
+  "authors": [
+    "Lupicus, MacTso"
+  ],
+  "contact": {
+    "homepage": "https://www.curseforge.com/minecraft/mc-mods/enameled-armor"
+  },
+
+  "license": "MIT License",
+  "icon": "logo.png",
+
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "com.lupicus.ea.Main"
+    ],
+    "client": [
+      "com.lupicus.ea.ClientMain"
+    ],
+    "fabric-datagen": [
+      "com.lupicus.ea.data.ModData"
+    ]
+  },
+  "mixins": [
+    "ea.mixins.json"
+  ],
+  "accessWidener" : "ea.accesswidener",
+
+  "depends": {
+    "fabricloader": ">=0.16.10",
+    "fabric-api": "*",
+    "minecraft": "~1.21.5",
+    "java": ">=21"
+  }
+}

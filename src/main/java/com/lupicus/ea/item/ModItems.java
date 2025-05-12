@@ -4,6 +4,7 @@ import java.util.function.Function;
 
 import com.lupicus.ea.Main;
 
+import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
@@ -18,8 +19,6 @@ import net.minecraft.world.item.equipment.ArmorMaterials;
 import net.minecraft.world.item.equipment.ArmorType;
 import net.minecraft.world.item.equipment.EquipmentAsset;
 import net.minecraft.world.item.equipment.EquipmentAssets;
-import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
-import net.minecraftforge.registries.IForgeRegistry;
 
 public class ModItems
 {
@@ -70,7 +69,7 @@ public class ModItems
 		return new Properties().fireResistant().component(DataComponents.ENCHANTMENT_GLINT_OVERRIDE, false);
 	}
 
-	public static void register(IForgeRegistry<Item> forgeRegistry)
+	public static void register()
 	{
 	}
 
@@ -80,30 +79,29 @@ public class ModItems
 		return Items.registerItem(key, func, prop);
 	}
 
-	public static void setupTabs(BuildCreativeModeTabContentsEvent event)
+	public static void setupTabs()
 	{
-		if (event.getTabKey() == CreativeModeTabs.COMBAT)
-		{
-			event.accept(EA_CHAINMAIL_HELMET);
-			event.accept(EA_CHAINMAIL_CHESTPLATE);
-			event.accept(EA_CHAINMAIL_LEGGINGS);
-			event.accept(EA_CHAINMAIL_BOOTS);
-			event.accept(EA_IRON_HELMET);
-			event.accept(EA_IRON_CHESTPLATE);
-			event.accept(EA_IRON_LEGGINGS);
-			event.accept(EA_IRON_BOOTS);
-			event.accept(EA_HELMET);
-			event.accept(EA_CHESTPLATE);
-			event.accept(EA_LEGGINGS);
-			event.accept(EA_BOOTS);
-			event.accept(EA_NETHERITE_HELMET);
-			event.accept(EA_NETHERITE_CHESTPLATE);
-			event.accept(EA_NETHERITE_LEGGINGS);
-			event.accept(EA_NETHERITE_BOOTS);
-			event.accept(EA_IRON_SWORD);
-			event.accept(EA_DIAMOND_SWORD);
-			event.accept(EA_NETHERITE_SWORD);
-			event.accept(EA_BOW);
-		}
+		ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.COMBAT).register((c) -> {
+			c.accept(EA_CHAINMAIL_HELMET);
+			c.accept(EA_CHAINMAIL_CHESTPLATE);
+			c.accept(EA_CHAINMAIL_LEGGINGS);
+			c.accept(EA_CHAINMAIL_BOOTS);
+			c.accept(EA_IRON_HELMET);
+			c.accept(EA_IRON_CHESTPLATE);
+			c.accept(EA_IRON_LEGGINGS);
+			c.accept(EA_IRON_BOOTS);
+			c.accept(EA_HELMET);
+			c.accept(EA_CHESTPLATE);
+			c.accept(EA_LEGGINGS);
+			c.accept(EA_BOOTS);
+			c.accept(EA_NETHERITE_HELMET);
+			c.accept(EA_NETHERITE_CHESTPLATE);
+			c.accept(EA_NETHERITE_LEGGINGS);
+			c.accept(EA_NETHERITE_BOOTS);
+			c.accept(EA_IRON_SWORD);
+			c.accept(EA_DIAMOND_SWORD);
+			c.accept(EA_NETHERITE_SWORD);
+			c.accept(EA_BOW);
+		});
 	}
 }
