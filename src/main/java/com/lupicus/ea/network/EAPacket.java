@@ -29,17 +29,12 @@ public class EAPacket
 		buf.writeShort(index);
 	}
 
-	public static EAPacket readPacketData(FriendlyByteBuf buf)
+	public static EAPacket decode(FriendlyByteBuf buf)
 	{
 		int cmd = buf.readByte();
 		int windowId = buf.readByte();
 		int index = buf.readShort();
 		return new EAPacket(cmd, windowId, index);
-	}
-
-	public static void writePacketData(EAPacket msg, FriendlyByteBuf buf)
-	{
-		msg.encode(buf);
 	}
 
 	public static void processPacket(EAPacket message, Context ctx)

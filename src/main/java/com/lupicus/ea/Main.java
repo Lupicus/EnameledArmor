@@ -9,7 +9,7 @@ import com.lupicus.ea.network.Register;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.eventbus.api.listener.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
@@ -24,7 +24,7 @@ public class Main
 
     public Main(FMLJavaModLoadingContext context)
     {
-		context.getModEventBus().addListener(this::setup);
+    	FMLCommonSetupEvent.getBus(context.getModBusGroup()).addListener(this::setup);
     }
 
 	public void setup(final FMLCommonSetupEvent event)

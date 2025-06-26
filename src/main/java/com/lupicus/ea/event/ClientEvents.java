@@ -22,22 +22,20 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.ScreenEvent.MouseButtonPressed;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.eventbus.api.listener.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
 @Mod.EventBusSubscriber(modid = Main.MODID, value = Dist.CLIENT)
 public class ClientEvents
 {
 	@SubscribeEvent
-	public static void onMouseScreenEvent(MouseButtonPressed.Pre event)
+	public static boolean onMouseScreenEvent(MouseButtonPressed.Pre event)
 	{
-		if (event.isCanceled())
-			return;
 		if (event.getButton() != GLFW.GLFW_MOUSE_BUTTON_RIGHT)
-			return;
+			return false;
 		Screen gui = event.getScreen();
 		if (gui == null || !(gui instanceof AbstractContainerScreen<?>))
-			return;
+			return false;
 		AbstractContainerScreen<?> cg = (AbstractContainerScreen<?>) gui;
 		Slot slot = cg.getSlotUnderMouse();
 		if (slot != null && slot.hasItem())
@@ -67,18 +65,17 @@ public class ClientEvents
 					// skip if in the crafting section
 					Container slotCont = slot.container;
 					if (slotCont instanceof CraftingContainer || slotCont instanceof ResultContainer)
-						return;
+						return false;
 					if (cont instanceof AbstractFurnaceMenu && slotCont instanceof SimpleContainer)
-						return;
+						return false;
 				}
 				if (index >= 0)
 				{
 					Network.sendToServer(new EAPacket(1, cont.containerId, index));
-					if (event.isCancelable())
-						event.setCanceled(true);
+					return true;
 				}
 			}
 		}
-		return;
+		return false;
 	}
 }
