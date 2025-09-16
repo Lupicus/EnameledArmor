@@ -13,6 +13,7 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.gui.screens.inventory.CreativeModeInventoryScreen;
 import net.minecraft.client.gui.screens.inventory.CreativeModeInventoryScreen.ItemPickerMenu;
+import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -31,9 +32,9 @@ public class ClientEvents
 			ScreenMouseEvents.allowMouseClick(screen).register(ClientEvents::allowMouseClick);
 	}
 
-	public static boolean allowMouseClick(Screen screen, double mouseX, double mouseY, int button)
+	public static boolean allowMouseClick(Screen screen, MouseButtonEvent event)
 	{
-		if (button != GLFW.GLFW_MOUSE_BUTTON_RIGHT)
+		if (event.button() != GLFW.GLFW_MOUSE_BUTTON_RIGHT)
 			return true;
 		AbstractContainerScreen<?> cg = (AbstractContainerScreen<?>) screen;
 		Slot slot = ((ACScreenAccessor) cg).getHoveredSlot();
