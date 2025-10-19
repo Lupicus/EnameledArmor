@@ -11,6 +11,7 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.eventbus.api.listener.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -20,36 +21,40 @@ import net.minecraftforge.registries.RegisterEvent;
 @Mod(Main.MODID)
 public class Main
 {
-    public static final String MODID = "ea"; 
+	public static final String MODID = "ea";
 
-    public Main(FMLJavaModLoadingContext context)
-    {
-    	FMLCommonSetupEvent.getBus(context.getModBusGroup()).addListener(this::setup);
-    }
+	public Main(FMLJavaModLoadingContext context)
+	{
+		FMLCommonSetupEvent.getBus(context.getModBusGroup()).addListener(this::setup);
+	}
 
 	public void setup(final FMLCommonSetupEvent event)
 	{
 		Register.initPackets();
 	}
 
-    @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
-    public static class ModEvents
-    {
-	    @SubscribeEvent
-	    public static void onRegister(final RegisterEvent event)
-	    {
-	    	@NotNull
+	@Mod.EventBusSubscriber(bus = Bus.MOD)
+	public static class ModEvents
+	{
+		@SubscribeEvent
+		public static void onRegister(final RegisterEvent event)
+		{
+			@NotNull
 			ResourceKey<? extends Registry<?>> key = event.getRegistryKey();
-	    	if (key.equals(ForgeRegistries.Keys.ITEMS))
-	    		ModItems.register(event.getForgeRegistry());
-	    	else if (key.equals(ForgeRegistries.Keys.RECIPE_SERIALIZERS))
-	    		event.getForgeRegistry().register(EARecipe.NAME, EARecipe.SERIALIZER);
-	    }
+			if (key.equals(ForgeRegistries.Keys.ITEMS))
+				ModItems.register(event.getForgeRegistry());
+			else if (key.equals(ForgeRegistries.Keys.RECIPE_SERIALIZERS))
+				event.getForgeRegistry().register(EARecipe.NAME, EARecipe.SERIALIZER);
+		}
+	}
 
-	    @SubscribeEvent
-	    public static void onCreativeTab(BuildCreativeModeTabContentsEvent event)
-	    {
-	    	ModItems.setupTabs(event);
-	    }
-    }
+	@Mod.EventBusSubscriber(bus = Bus.FORGE)
+	public static class ForgeEvents
+	{
+		@SubscribeEvent
+		public static void onCreativeTab(BuildCreativeModeTabContentsEvent event)
+		{
+			ModItems.setupTabs(event);
+		}
+	}
 }
