@@ -3,7 +3,7 @@ package com.lupicus.ea.network;
 import com.lupicus.ea.Main;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -12,7 +12,7 @@ import net.minecraftforge.network.SimpleChannel;
 
 public class Network
 {
-	public static final SimpleChannel INSTANCE = ChannelBuilder.named(ResourceLocation.fromNamespaceAndPath(Main.MODID, "main"))
+	public static final SimpleChannel INSTANCE = ChannelBuilder.named(Identifier.fromNamespaceAndPath(Main.MODID, "main"))
 			.networkProtocolVersion(1)
 			.simpleChannel();
 

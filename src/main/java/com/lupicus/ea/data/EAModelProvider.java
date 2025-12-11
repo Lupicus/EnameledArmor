@@ -30,7 +30,7 @@ public class EAModelProvider extends ModelProvider
 	protected Stream<Item> getKnownItems()
 	{
 		return BuiltInRegistries.ITEM.stream()
-				.filter(item -> "ea".equals(item.builtInRegistryHolder().key().location().getNamespace()));
+				.filter(item -> "ea".equals(item.builtInRegistryHolder().key().identifier().getNamespace()));
 	}
 
 	@Override

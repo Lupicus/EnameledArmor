@@ -6,8 +6,8 @@ import com.lupicus.ea.Main;
 
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ToolMaterial;
@@ -55,7 +55,7 @@ public class ModItems
 
 	private static ArmorMaterial create(ArmorMaterial copy, String name)
 	{
-		ResourceLocation modelId = ResourceLocation.fromNamespaceAndPath(Main.MODID, name);
+		Identifier modelId = Identifier.fromNamespaceAndPath(Main.MODID, name);
 		ResourceKey<EquipmentAsset> assetId = ResourceKey.create(EquipmentAssets.ROOT_ID, modelId);
 		return new ArmorMaterial(copy.durability(), copy.defense(), copy.enchantmentValue(), copy.equipSound(), copy.toughness(), copy.knockbackResistance(), copy.repairIngredient(), assetId);
 	}
@@ -76,7 +76,7 @@ public class ModItems
 
 	private static Item register(String name, Function<Properties, Item> func, Properties prop)
 	{
-		ResourceKey<Item> key = ResourceKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath(Main.MODID, name));
+		ResourceKey<Item> key = ResourceKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(Main.MODID, name));
 		return Items.registerItem(key, func, prop);
 	}
 
