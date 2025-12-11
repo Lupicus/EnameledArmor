@@ -6,7 +6,7 @@ import com.lupicus.ea.item.IGuiRightClick;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking.Context;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.Slot;
@@ -14,7 +14,7 @@ import net.minecraft.world.item.ItemStack;
 
 public class EAPacket implements CustomPacketPayload
 {
-	public static final ResourceLocation PACKET_ID = ResourceLocation.fromNamespaceAndPath(Main.MODID, "right_click");
+	public static final Identifier PACKET_ID = Identifier.fromNamespaceAndPath(Main.MODID, "right_click");
 	public static final CustomPacketPayload.Type<EAPacket> TYPE = new CustomPacketPayload.Type<>(PACKET_ID);
 
 	private int cmd;

@@ -21,8 +21,8 @@ import net.minecraft.client.renderer.item.SelectItemModel;
 import net.minecraft.client.renderer.item.properties.numeric.UseDuration;
 import net.minecraft.client.renderer.item.properties.select.TrimMaterialProperty;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.equipment.EquipmentAsset;
@@ -65,9 +65,9 @@ public class EAItemGenerators
 
 	protected void generateTrimmableItem(Item item)
 	{
-		ResourceLocation resourcelocation = ModelLocationUtils.getModelLocation(item);
-		ResourceLocation resourcelocation1 = TextureMapping.getItemTexture(item);
-		ResourceLocation resourcelocation2 = TextureMapping.getItemTexture(item, "_overlay");
+		Identifier resourcelocation = ModelLocationUtils.getModelLocation(item);
+		Identifier resourcelocation1 = TextureMapping.getItemTexture(item);
+		Identifier resourcelocation2 = TextureMapping.getItemTexture(item, "_overlay");
 		List<SelectItemModel.SwitchCase<ResourceKey<TrimMaterial>>> list = new ArrayList<>(ItemModelGenerators.TRIM_MATERIAL_MODELS.size());
 
 		Equippable equippable = item.components().get(DataComponents.EQUIPPABLE);
@@ -84,9 +84,9 @@ public class EAItemGenerators
 
 			for (TrimMaterialData itemmodelgenerators$trimmaterialdata : ItemModelGenerators.TRIM_MATERIAL_MODELS) {
 				MaterialAssetGroup assets = itemmodelgenerators$trimmaterialdata.assets();
-				ResourceLocation resourcelocation3 = resourcelocation
+				Identifier resourcelocation3 = resourcelocation
 						.withSuffix("_" + assets.base().suffix() + "_trim");
-				ResourceLocation resourcelocation4 = ResourceLocation.withDefaultNamespace(
+				Identifier resourcelocation4 = Identifier.withDefaultNamespace(
 						"trims/items/" + name + "_trim_" + assets.overrides().getOrDefault(assetId, assets.base()).suffix());
 				gen.generateLayeredItem(resourcelocation3, resourcelocation1, resourcelocation2, resourcelocation4);
 				ItemModel.Unbaked itemmodel$unbaked = ItemModelUtils.tintedModel(resourcelocation3, new Dye(EAArmorItem.DEFCOLOR));
@@ -104,7 +104,7 @@ public class EAItemGenerators
 
 	protected void generateBow2(Item item)
 	{
-		ResourceLocation model = ModelLocationUtils.getModelLocation(item);
+		Identifier model = ModelLocationUtils.getModelLocation(item);
 		ModelTemplate tmpl = new ModelTemplate(Optional.of(model), Optional.empty(), TextureSlot.LAYER0);
 		ItemModel.Unbaked itemmodel$unbaked = ItemModelUtils.plainModel(model);
 		ItemModel.Unbaked itemmodel$unbaked1 = ItemModelUtils.plainModel(gen.createFlatItemModel(item, "_pulling_0", tmpl));

@@ -1,5 +1,5 @@
 plugins {
-	id 'fabric-loom' version "${loom_version}"
+	id 'net.fabricmc.fabric-loom-remap' version "${loom_version}"
 	id 'maven-publish'
 }
 
@@ -45,7 +45,7 @@ processResources {
 	inputs.property "version", project.version
 
 	filesMatching("fabric.mod.json") {
-		expand "version": project.version
+		expand "version": inputs.properties.version
 	}
 }
 
@@ -70,8 +70,10 @@ remapJar {
 jar {
 	archiveAppendix = "${minecraft_version}"
 	excludes = ["com/lupicus/ea/data", ".cache"]
+	inputs.property "archivesName", project.base.archivesName
+
 	from("LICENSE.txt") {
-		rename { "LICENSE_${project.archivesBaseName}.txt"}
+		rename { "LICENSE_${inputs.properties.archivesName}.txt"}
 	}
 }
 

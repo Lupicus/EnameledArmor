@@ -11,7 +11,7 @@ import net.minecraft.advancements.AdvancementHolder;
 import net.minecraft.advancements.AdvancementRequirements;
 import net.minecraft.advancements.AdvancementRewards;
 import net.minecraft.advancements.Criterion;
-import net.minecraft.advancements.critereon.RecipeUnlockedTrigger;
+import net.minecraft.advancements.criterion.RecipeUnlockedTrigger;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -19,8 +19,8 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.data.recipes.RecipeBuilder;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
+import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -125,7 +125,7 @@ public class EAShapelessRecipeBuilder implements RecipeBuilder
 
 	@Override
 	public void save(RecipeOutput consumer) {
-		ResourceLocation resLoc = BuiltInRegistries.ITEM.getKey(result);
+		Identifier resLoc = BuiltInRegistries.ITEM.getKey(result);
 		if (namespace != null || suffix != null)
 			save(consumer, resLoc.toString());
 		else
@@ -136,19 +136,19 @@ public class EAShapelessRecipeBuilder implements RecipeBuilder
 	public void save(RecipeOutput consumer, String resName) {
 		if (namespace != null || suffix != null)
 		{
-			ResourceLocation work = ResourceLocation.parse(resName);
+			Identifier work = Identifier.parse(resName);
 			if (namespace != null)
 			{
-				work = ResourceLocation.fromNamespaceAndPath(namespace, work.getPath());
+				work = Identifier.fromNamespaceAndPath(namespace, work.getPath());
 			}
 			if (suffix != null)
 			{
-				work = ResourceLocation.fromNamespaceAndPath(work.getNamespace(), work.getPath() + suffix);
+				work = Identifier.fromNamespaceAndPath(work.getNamespace(), work.getPath() + suffix);
 			}
 			resName = work.toString();
 		}
-		ResourceLocation resLoc = ResourceLocation.parse(resName);
-		ResourceLocation iLoc = BuiltInRegistries.ITEM.getKey(result);
+		Identifier resLoc = Identifier.parse(resName);
+		Identifier iLoc = BuiltInRegistries.ITEM.getKey(result);
 		if (resLoc.equals(iLoc)) {
 			throw new IllegalStateException("Shapeless Recipe " + resName + " should remove its 'save' argument");
 		} else {
@@ -167,7 +167,7 @@ public class EAShapelessRecipeBuilder implements RecipeBuilder
 					.rewards(AdvancementRewards.Builder.recipe(resKey))
 					.requirements(AdvancementRequirements.Strategy.OR);
 			criteria.forEach(adv::addCriterion);
-			advHolder = adv.build(resKey.location().withPrefix("recipes/" + category.getFolderName() + "/"));
+			advHolder = adv.build(resKey.identifier().withPrefix("recipes/" + category.getFolderName() + "/"));
 		}
 		EARecipe recipe = new EARecipe(group, RecipeBuilder.determineBookCategory(category), new ItemStack(result, count), ingredients, operation);
 		consumer.accept(resKey, recipe, advHolder);

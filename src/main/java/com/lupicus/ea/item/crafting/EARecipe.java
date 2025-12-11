@@ -2,7 +2,7 @@ package com.lupicus.ea.item.crafting;
 
 import java.util.List;
 
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import com.lupicus.ea.Main;
 import com.mojang.serialization.Codec;
@@ -14,7 +14,7 @@ import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.DyeItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -41,7 +41,7 @@ public class EARecipe implements CraftingRecipe
 	private PlacementInfo placementInfo;
 	protected final String operation;
 	public static final RecipeSerializer<EARecipe> SERIALIZER = new Serializer();
-	public static final ResourceLocation NAME = ResourceLocation.fromNamespaceAndPath(Main.MODID, "crafting_shapeless");
+	public static final Identifier NAME = Identifier.fromNamespaceAndPath(Main.MODID, "crafting_shapeless");
 
 	public EARecipe(String groupIn, CraftingBookCategory catIn, ItemStack recipeOutputIn,
 			List<Ingredient> recipeItemsIn, String operationIn)

@@ -16,7 +16,7 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.data.recipes.RecipeProvider;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
@@ -25,7 +25,7 @@ import net.minecraft.world.level.ItemLike;
 public class EARecipeProvider extends RecipeProvider
 {
 	HolderGetter<Item> items;
-	TagKey<Item> TRUE_DYES = TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath(Main.MODID, "true_dyes"));
+	TagKey<Item> TRUE_DYES = TagKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(Main.MODID, "true_dyes"));
 
 	public EARecipeProvider(HolderLookup.Provider lookup, RecipeOutput output) {
 		super(lookup, output);
